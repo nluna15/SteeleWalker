@@ -1,0 +1,49 @@
+# XcodeGen project spec — generate the .xcodeproj by running:
+#   brew install xcodegen
+#   xcodegen generate
+#
+# Firebase SDK is pulled via SPM. After generating, open the project in Xcode,
+# add GoogleService-Info.plist to the SteeleWalker target, then build.
+
+name: SteeleWalker
+
+options:
+  bundleIdPrefix: com.steelewalker
+  deploymentTarget:
+    iOS: "16.0"
+  xcodeVersion: "15.0"
+  createIntermediateGroups: true
+
+packages:
+  Firebase:
+    url: https://github.com/firebase/firebase-ios-sdk
+    from: "10.0.0"
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS
+    from: "7.0.0"
+
+targets:
+  SteeleWalker:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - SteeleWalker
+      - path: SteeleWalker/GoogleService-Info.plist
+        type: file
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.steelewalker.app
+        SWIFT_VERSION: "5.9"
+        INFOPLIST_FILE: SteeleWalker/Info.plist
+        CODE_SIGN_ENTITLEMENTS: SteeleWalker/SteeleWalker.entitlements
+    dependencies:
+      - package: Firebase
+        product: FirebaseFirestore
+      - package: Firebase
+        product: FirebaseAuth
+      - package: GoogleSignIn
+        product: GoogleSignIn
+      - package: GoogleSignIn
+        product: GoogleSignInSwift

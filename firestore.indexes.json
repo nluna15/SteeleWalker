@@ -1,0 +1,76 @@
+{
+  "indexes": [
+    // --- dogs ---
+    // List a user's dogs sorted by creation time.
+    {
+      "collectionGroup": "dogs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id",    "order": "ASCENDING" },
+        { "fieldPath": "created_at", "order": "ASCENDING" }
+      ]
+    },
+
+    // --- walking_schedules ---
+    // Fetch weekday vs weekend schedule for a specific user.
+    {
+      "collectionGroup": "walking_schedules",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id",       "order": "ASCENDING" },
+        { "fieldPath": "schedule_type", "order": "ASCENDING" }
+      ]
+    },
+
+    // --- scheduled_walks ---
+    // All walks for a user on a given date (recommendation engine query).
+    {
+      "collectionGroup": "scheduled_walks",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "order": "ASCENDING" },
+        { "fieldPath": "date",    "order": "ASCENDING" }
+      ]
+    },
+    // All walk instances derived from a specific schedule template + date range.
+    {
+      "collectionGroup": "scheduled_walks",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "schedule_id", "order": "ASCENDING" },
+        { "fieldPath": "date",        "order": "ASCENDING" }
+      ]
+    },
+    // Walk order within a user's day (for rendering ordered walk cards).
+    {
+      "collectionGroup": "scheduled_walks",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id",    "order": "ASCENDING" },
+        { "fieldPath": "date",       "order": "ASCENDING" },
+        { "fieldPath": "walk_order", "order": "ASCENDING" }
+      ]
+    },
+
+    // --- walk_logs ---
+    // Fetch all walk logs for a user on a specific date (history screen).
+    {
+      "collectionGroup": "walk_logs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "order": "ASCENDING" },
+        { "fieldPath": "date",    "order": "ASCENDING" }
+      ]
+    },
+    // Most-recent-first log feed for a user.
+    {
+      "collectionGroup": "walk_logs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id",    "order": "ASCENDING" },
+        { "fieldPath": "started_at", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

@@ -1,0 +1,27 @@
+# Xcode
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+DerivedData/
+build/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# CocoaPods (not used, but safe to include)
+Pods/
+
+# Sensitive Firebase config — keep out of source control
+GoogleService-Info.plist
+SteeleWalker/GoogleService-Info.plist
+
+# macOS
+.DS_Store
+
+# IDE
+.cursor/
+.claude/
