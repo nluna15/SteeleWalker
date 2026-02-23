@@ -7,22 +7,22 @@ service cloud.firestore {
     }
 
     match /dogs/{dogId} {
-      allow read, update, delete: if request.auth != null && request.auth.uid == resource.data.user_id;
+      allow read, delete, update: if request.auth != null && resource != null && request.auth.uid == resource.data.user_id;
       allow create: if request.auth != null && request.auth.uid == request.resource.data.user_id;
     }
 
     match /walk_logs/{logId} {
-      allow read, update, delete: if request.auth != null && request.auth.uid == resource.data.user_id;
+      allow read, delete, update: if request.auth != null && resource != null && request.auth.uid == resource.data.user_id;
       allow create: if request.auth != null && request.auth.uid == request.resource.data.user_id;
     }
 
     match /scheduled_walks/{walkId} {
-      allow read, update, delete: if request.auth != null && request.auth.uid == resource.data.user_id;
+      allow read, delete, update: if request.auth != null && resource != null && request.auth.uid == resource.data.user_id;
       allow create: if request.auth != null && request.auth.uid == request.resource.data.user_id;
     }
 
     match /walking_schedules/{scheduleId} {
-      allow read, update, delete: if request.auth != null && request.auth.uid == resource.data.user_id;
+      allow read, delete, update: if request.auth != null && resource != null && request.auth.uid == resource.data.user_id;
       allow create: if request.auth != null && request.auth.uid == request.resource.data.user_id;
     }
 

@@ -38,6 +38,15 @@ struct ScheduledWalk: Codable, Identifiable {
     let walkOrder: Int
 
     let createdAt: Date
+    let updatedAt: Date
+
+    /// Current lifecycle status of this walk instance.
+    let status: ScheduledWalkStatus
+
+    /// Weather conditions at the time the recommendation engine fetched
+    /// Tomorrow.io data for this walk's date/time window.
+    /// `nil` until recommendations have been computed for this instance.
+    let weatherSnapshot: WeatherSnapshot?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -48,5 +57,8 @@ struct ScheduledWalk: Codable, Identifiable {
         case durationMinutes = "duration_minutes"
         case walkOrder       = "walk_order"
         case createdAt       = "created_at"
+        case updatedAt       = "updated_at"
+        case status
+        case weatherSnapshot = "weather_snapshot"
     }
 }

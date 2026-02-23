@@ -8,6 +8,14 @@ struct ContentView: View {
             Text("SteeleWalker")
                 .font(.largeTitle)
                 .toolbar {
+                    #if DEBUG
+                    ToolbarItem(placement: .topBarLeading) {
+                        NavigationLink("CRUD Debug") {
+                            CRUDDebugView()
+                        }
+                    }
+                    #endif
+
                     ToolbarItem(placement: .topBarTrailing) {
                         Button("Sign Out") {
                             auth.signOut()

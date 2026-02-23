@@ -80,8 +80,8 @@ struct User: Codable, Identifiable {
     /// granted location permission and has not entered it manually.
     let location: Location?
 
-    /// How the location field was obtained.
-    let locationSource: LocationType?
+    /// User's email address. Captured on first Apple Sign-In (Apple provides it only once).
+    let email: String?
 
     /// Whether the user has opted into push notifications.
     let notificationsEnabled: Bool
@@ -95,7 +95,7 @@ struct User: Codable, Identifiable {
         case authProvider         = "auth_provider"
         case authProviderId       = "auth_provider_id"
         case location
-        case locationSource       = "location_source"
+        case email
         case notificationsEnabled = "notifications_enabled"
         case createdAt            = "created_at"
         case updatedAt            = "updated_at"

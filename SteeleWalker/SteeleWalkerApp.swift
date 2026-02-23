@@ -1,5 +1,7 @@
 import SwiftUI
 import FirebaseCore
+import FirebaseFirestore
+import FirebaseAuth
 import GoogleSignIn
 
 @main
@@ -8,6 +10,16 @@ struct SteeleWalkerApp: App {
 
     init() {
         FirebaseApp.configure()
+
+        #if DEBUG
+        let settings = Firestore.firestore().settings
+        settings.host = "localhost:8080"
+        settings.cacheSettings = MemoryCacheSettings()
+        settings.isSSLEnabled = false
+        Firestore.firestore().settings = settings
+
+        Auth.auth().useEmulator(withHost: "localhost", port: 9099)
+        #endif
     }
 
     var body: some Scene {

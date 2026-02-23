@@ -69,6 +69,9 @@ class AuthViewModel: ObservableObject {
         if !docExists {
             data["created_at"] = FieldValue.serverTimestamp()
             data["notifications_enabled"] = false
+            if let email = firebaseUser.email {
+                data["email"] = email
+            }
         }
 
         do {

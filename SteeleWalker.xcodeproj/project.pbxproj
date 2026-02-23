@@ -13,6 +13,7 @@
 		32BBC486106969FC7245E321 /* DogSensitivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410F165054CF1F10D1468EFF /* DogSensitivity.swift */; };
 		44CBA6A32A15F25027DF79BE /* ScheduleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96538B09D06C1C599A7EAF3 /* ScheduleType.swift */; };
 		482B591B142762FF5787FEA1 /* WalkLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F18D394004C836C29E408DB /* WalkLog.swift */; };
+		F15D30FB0DF54645A3A3102D /* WeatherSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62F657D70654D4FBA98D4E0 /* WeatherSnapshot.swift */; };
 		5399979D0B9A21246C43C7FB /* BreedSeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFC7E8D1899E00A6B1D4DA1 /* BreedSeed.swift */; };
 		5CF0E7BFE4040423D6470DEA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3B4C1002778B17BA4908884F /* FirebaseAuth */; };
 		5EBCA42B6FAF29AF3D7707E7 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1B89264ED8427AA1884CD79F /* GoogleSignInSwift */; };
@@ -27,6 +28,13 @@
 		D8BE0F6A5C82A83386FF3928 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6C9F7084D398676FC6B33B /* User.swift */; };
 		D93EE62F879C20B1E3A46545 /* ScheduledWalk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664E978CE6C730F6578E65F1 /* ScheduledWalk.swift */; };
 		FDEAB3F80BCDD66541C3819F /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5724537BE21CFDEEAE533C83 /* AuthViewModel.swift */; };
+		BB1122334455667788990022 /* ScheduledWalkStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1122334455667788990011 /* ScheduledWalkStatus.swift */; };
+		DD1122334455667788990044 /* CRUDDebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1122334455667788990033 /* CRUDDebugView.swift */; };
+		001122334455667788990077 /* DogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1122334455667788990066 /* DogService.swift */; };
+		221122334455667788990099 /* ScheduledWalkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111122334455667788990088 /* ScheduledWalkService.swift */; };
+		4411223344556677889900BB /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3311223344556677889900AA /* UserService.swift */; };
+		6611223344556677889900DD /* WalkLogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5511223344556677889900CC /* WalkLogService.swift */; };
+		8811223344556677889900FF /* WalkingScheduleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7711223344556677889900EE /* WalkingScheduleService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,12 +51,20 @@
 		549608D907F1538F4C89D967 /* SteeleWalkerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteeleWalkerApp.swift; sourceTree = "<group>"; };
 		5724537BE21CFDEEAE533C83 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		5F18D394004C836C29E408DB /* WalkLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkLog.swift; sourceTree = "<group>"; };
+		D62F657D70654D4FBA98D4E0 /* WeatherSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherSnapshot.swift; sourceTree = "<group>"; };
 		664E978CE6C730F6578E65F1 /* ScheduledWalk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledWalk.swift; sourceTree = "<group>"; };
 		77D9F6751C81BBE3FD563CD6 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		AE55DE936539C8E01FDE7FA2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B1DDEDAF5272443634E862C9 /* SteeleWalker.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SteeleWalker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBFC7E8D1899E00A6B1D4DA1 /* BreedSeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedSeed.swift; sourceTree = "<group>"; };
 		D96538B09D06C1C599A7EAF3 /* ScheduleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleType.swift; sourceTree = "<group>"; };
+		AA1122334455667788990011 /* ScheduledWalkStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledWalkStatus.swift; sourceTree = "<group>"; };
+		CC1122334455667788990033 /* CRUDDebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRUDDebugView.swift; sourceTree = "<group>"; };
+		FF1122334455667788990066 /* DogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogService.swift; sourceTree = "<group>"; };
+		111122334455667788990088 /* ScheduledWalkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledWalkService.swift; sourceTree = "<group>"; };
+		3311223344556677889900AA /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		5511223344556677889900CC /* WalkLogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkLogService.swift; sourceTree = "<group>"; };
+		7711223344556677889900EE /* WalkingScheduleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkingScheduleService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +126,8 @@
 				B7396CEDE99B0718F102AD5A /* Models */,
 				F3E1B98A64680D9A14B61349 /* Seeds */,
 				0BB47A1B2F3C80E55D7A3C27 /* Views */,
+				EE1122334455667788990055 /* Debug */,
+				9911223344556677889900AA /* Services */,
 			);
 			path = SteeleWalker;
 			sourceTree = "<group>";
@@ -121,6 +139,7 @@
 				410F165054CF1F10D1468EFF /* DogSensitivity.swift */,
 				2D6EC987F7F5B521B5A21EC0 /* DogSize.swift */,
 				D96538B09D06C1C599A7EAF3 /* ScheduleType.swift */,
+				AA1122334455667788990011 /* ScheduledWalkStatus.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -134,6 +153,7 @@
 				1C6C9F7084D398676FC6B33B /* User.swift */,
 				0960F7E13B1BC4D95EE9201A /* WalkingSchedule.swift */,
 				5F18D394004C836C29E408DB /* WalkLog.swift */,
+			D62F657D70654D4FBA98D4E0 /* WeatherSnapshot.swift */,
 				8A631A2E0FFAC3AC1CCB2D6E /* Enums */,
 			);
 			path = Models;
@@ -145,6 +165,26 @@
 				CBFC7E8D1899E00A6B1D4DA1 /* BreedSeed.swift */,
 			);
 			path = Seeds;
+			sourceTree = "<group>";
+		};
+		EE1122334455667788990055 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				CC1122334455667788990033 /* CRUDDebugView.swift */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
+		9911223344556677889900AA /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				FF1122334455667788990066 /* DogService.swift */,
+				111122334455667788990088 /* ScheduledWalkService.swift */,
+				3311223344556677889900AA /* UserService.swift */,
+				5511223344556677889900CC /* WalkLogService.swift */,
+				7711223344556677889900EE /* WalkingScheduleService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,8 +274,16 @@
 				A1D67C5F4F1ADE433691C959 /* SteeleWalkerApp.swift in Sources */,
 				D8BE0F6A5C82A83386FF3928 /* User.swift in Sources */,
 				482B591B142762FF5787FEA1 /* WalkLog.swift in Sources */,
+			F15D30FB0DF54645A3A3102D /* WeatherSnapshot.swift in Sources */,
 				B3F1CE4541CCD733DF02B660 /* WalkingSchedule.swift in Sources */,
 				07806ACEA0EF2B68FD157CDE /* WelcomeView.swift in Sources */,
+				BB1122334455667788990022 /* ScheduledWalkStatus.swift in Sources */,
+				DD1122334455667788990044 /* CRUDDebugView.swift in Sources */,
+				001122334455667788990077 /* DogService.swift in Sources */,
+				221122334455667788990099 /* ScheduledWalkService.swift in Sources */,
+				4411223344556677889900BB /* UserService.swift in Sources */,
+				6611223344556677889900DD /* WalkLogService.swift in Sources */,
+				8811223344556677889900FF /* WalkingScheduleService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

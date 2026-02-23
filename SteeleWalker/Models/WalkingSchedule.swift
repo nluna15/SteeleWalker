@@ -49,7 +49,7 @@ struct WalkingSchedule: Codable, Identifiable {
     /// Ordered walk slots for this schedule. Ordered by `walkOrder` ascending.
     let slots: [WalkSlot]
 
-    let createdAt: Date
+    let createdAt: Date?
     let updatedAt: Date
 
     enum CodingKeys: String, CodingKey {

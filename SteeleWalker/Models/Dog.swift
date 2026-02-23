@@ -47,6 +47,9 @@ struct Dog: Codable, Identifiable {
     /// Example: `["rain", "extreme_heat"]`
     let sensitivities: [String]
 
+    /// Whether this dog is active. Soft-deleted dogs have `isActive = false`.
+    let isActive: Bool
+
     let createdAt: Date
     let updatedAt: Date
 
@@ -64,6 +67,7 @@ struct Dog: Codable, Identifiable {
         case healthNotes      = "health_notes"
         case healthConditions = "health_conditions"
         case sensitivities
+        case isActive         = "is_active"
         case createdAt        = "created_at"
         case updatedAt        = "updated_at"
     }

@@ -29,11 +29,24 @@ struct WalkLog: Codable, Identifiable {
     /// Exact timestamp when the user tapped "Start walk."
     let startedAt: Date
 
+    /// IDs of the dogs that participated in this walk.
+    let dogIds: [String]
+
+    /// Weather conditions at walk-start time.
+    ///
+    /// For scheduled walks: copied from `ScheduledWalk.weatherSnapshot`
+    /// (no additional API call). For ad-hoc walks: sourced from the
+    /// in-memory snapshot cached at app launch. `nil` when no snapshot
+    /// was available at walk-start time.
+    let weatherSnapshot: WeatherSnapshot?
+
     enum CodingKeys: String, CodingKey {
         case id
         case userId           = "user_id"
         case scheduledWalkId  = "scheduled_walk_id"
         case date
         case startedAt        = "started_at"
+        case dogIds           = "dog_ids"
+        case weatherSnapshot  = "weather_snapshot"
     }
 }
