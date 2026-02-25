@@ -1,5 +1,19 @@
 import FirebaseFirestore
 
+struct WalkSlotInput: Sendable {
+    let preferredTime: String
+    let durationMinutes: Int
+    let walkOrder: Int
+
+    var asDictionary: [String: Any] {
+        [
+            "preferred_time":   preferredTime,
+            "duration_minutes": durationMinutes,
+            "walk_order":       walkOrder
+        ]
+    }
+}
+
 struct WalkingScheduleService {
 
     // MARK: - Document ID
@@ -17,16 +31,18 @@ struct WalkingScheduleService {
     static func setSchedule(
         userId: String,
         scheduleType: String,
-        slots: [[String: Any]]
+        walksPerDay: Int,
+        slots: [WalkSlotInput]
     ) async throws {
         let db = Firestore.firestore()
         let docId = documentId(userId: userId, scheduleType: scheduleType)
         let data: [String: Any] = [
-            "id":            docId,
-            "user_id":       userId,
-            "schedule_type": scheduleType,
-            "slots":         slots,
-            "updated_at":    FieldValue.serverTimestamp()
+            "id":             docId,
+            "user_id":        userId,
+            "schedule_type":  scheduleType,
+            "walks_per_day":  walksPerDay,
+            "slots":          slots.map(\.asDictionary),
+            "updated_at":     FieldValue.serverTimestamp()
         ]
         try await db.collection("walking_schedules").document(docId).setData(data, merge: true)
     }

@@ -1,5 +1,5 @@
 import Foundation
-import FirebaseAuth
+@preconcurrency import FirebaseAuth
 import FirebaseFirestore
 import GoogleSignIn
 
@@ -7,7 +7,7 @@ import GoogleSignIn
 class AuthViewModel: ObservableObject {
     @Published var currentUser: FirebaseAuth.User?
 
-    private var authStateListener: AuthStateDidChangeListenerHandle?
+    nonisolated(unsafe) private var authStateListener: AuthStateDidChangeListenerHandle?
 
     init() {
         authStateListener = Auth.auth().addStateDidChangeListener { [weak self] _, user in

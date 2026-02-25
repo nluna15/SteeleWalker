@@ -15,8 +15,9 @@ struct Dog: Codable, Identifiable {
 
     let name: String
 
-    /// Reference to a document in the `breeds` collection.
-    let breedId: String
+    /// References to documents in the `breeds` collection.
+    /// A dog may have multiple breeds (e.g. mixed "Labrador, Corgi").
+    let breedIds: [String]
 
     /// Birth month (1–12). Optional — user may not know exact date.
     let birthMonth: Int?
@@ -57,7 +58,7 @@ struct Dog: Codable, Identifiable {
         case id
         case userId           = "user_id"
         case name
-        case breedId          = "breed_id"
+        case breedIds         = "breed_ids"
         case birthMonth       = "birth_month"
         case birthYear        = "birth_year"
         case weightLbs        = "weight_lbs"

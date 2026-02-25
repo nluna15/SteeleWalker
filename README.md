@@ -4,7 +4,7 @@ An iOS app for managing dog walking schedules, logging walks, and tracking dog p
 
 ## Tech Stack
 
-- **iOS 16+** — SwiftUI
+- **iOS 26+** — SwiftUI
 - **Backend** — Firebase (Firestore + Authentication)
 - **Auth** — Google Sign-In, Apple Sign-In
 - **Project generation** — XcodeGen

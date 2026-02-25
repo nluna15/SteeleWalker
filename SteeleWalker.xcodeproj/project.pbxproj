@@ -9,62 +9,102 @@
 /* Begin PBXBuildFile section */
 		07806ACEA0EF2B68FD157CDE /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D9F6751C81BBE3FD563CD6 /* WelcomeView.swift */; };
 		081E25CC92A9D5B14A2176A2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE55DE936539C8E01FDE7FA2 /* ContentView.swift */; };
+		162E842E4BEACBC5977D772D /* AddDogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82598EED1F9FD1D909EFCBDF /* AddDogView.swift */; };
+		1FB1426C6CFCFCE0AB32A5FF /* Step4SensitivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E831B70BC58D2DF1C470B4A /* Step4SensitivitiesView.swift */; };
+		22A778A12078AE44662B08DF /* OnboardingContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16777CACE298291973B984AF /* OnboardingContainerView.swift */; };
 		306853D80ABE4264013C8F85 /* DogSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6EC987F7F5B521B5A21EC0 /* DogSize.swift */; };
 		32BBC486106969FC7245E321 /* DogSensitivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410F165054CF1F10D1468EFF /* DogSensitivity.swift */; };
+		40407136E62EE07D29876FF9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC80374B31AF4BD37EA80F6 /* ProfileView.swift */; };
 		44CBA6A32A15F25027DF79BE /* ScheduleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96538B09D06C1C599A7EAF3 /* ScheduleType.swift */; };
+		45ED73734878F34ED099829C /* DogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C76368D27BA644FEF1E7B3 /* DogService.swift */; };
 		482B591B142762FF5787FEA1 /* WalkLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F18D394004C836C29E408DB /* WalkLog.swift */; };
-		F15D30FB0DF54645A3A3102D /* WeatherSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62F657D70654D4FBA98D4E0 /* WeatherSnapshot.swift */; };
+		4C83171B962CF871CB769F4D /* WalkingPreferencesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C312218AC2D5D424C4317C3A /* WalkingPreferencesViewModel.swift */; };
 		5399979D0B9A21246C43C7FB /* BreedSeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFC7E8D1899E00A6B1D4DA1 /* BreedSeed.swift */; };
+		5A5D9EDC9A6429CC71562438 /* ScheduledWalkStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C49DEFC060D498361F2FA96 /* ScheduledWalkStatus.swift */; };
 		5CF0E7BFE4040423D6470DEA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3B4C1002778B17BA4908884F /* FirebaseAuth */; };
 		5EBCA42B6FAF29AF3D7707E7 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1B89264ED8427AA1884CD79F /* GoogleSignInSwift */; };
 		60B25700BBDC3827983C1C78 /* DogHealthCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC3E7F05244CAB76171BA2F /* DogHealthCondition.swift */; };
 		68810A17CF43DD098FB67B14 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A917DB645E6DBBCF3EDE40A /* GoogleService-Info.plist */; };
+		6C1D8362083DC52BCA1F629B /* OnboardingProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F79BD9FFE2D577357C5F413 /* OnboardingProgressBar.swift */; };
+		74E3CBA0F9351E1856B9F638 /* DogEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6454158663516C2BACF91663 /* DogEditView.swift */; };
 		7A35111EF487198C58F2924A /* Dog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D48835BD25A6C1134D6631 /* Dog.swift */; };
+		88296615EE3F2925ACD8AB8B /* WalkingPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24123098EAC7A627D965EEFD /* WalkingPreferencesView.swift */; };
+		91AF6AC8CD03A023538A5AC1 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E133D77DDCA0CE971139D2 /* UserService.swift */; };
+		920B2D41A2A798423E1869BD /* Step2WalkRoutineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DC58435CE4397A76151229 /* Step2WalkRoutineView.swift */; };
+		95C298A9886D55B1CC7CB086 /* BreedSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703D8D37439190D13CB61902 /* BreedSearchField.swift */; };
+		97D9C6279B306DAE6BF518B1 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1873E4D6130144EDEE5B478E /* OnboardingViewModel.swift */; };
+		A07C495504A17892FFBA5E28 /* WeatherSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12601A0DD4FCFD4071C9C76D /* WeatherSnapshot.swift */; };
 		A1D67C5F4F1ADE433691C959 /* SteeleWalkerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549608D907F1538F4C89D967 /* SteeleWalkerApp.swift */; };
+		A3948271261026116981C1DC /* CRUDDebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C0FC567873FFD913D982933 /* CRUDDebugView.swift */; };
 		A7AA1BB324B7A8063EE2D5B4 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 12B20A4263C999B1E03D4BCF /* GoogleSignIn */; };
 		AE127B2882F7DB3C7A5995B0 /* Breed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3AD94294FE6F03F86C8264 /* Breed.swift */; };
 		B3F1CE4541CCD733DF02B660 /* WalkingSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0960F7E13B1BC4D95EE9201A /* WalkingSchedule.swift */; };
 		BDD95CB815AD426DBA8AE2C3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = A0C475790AF84CCDDA031B1D /* FirebaseFirestore */; };
+		CCBB1289250CCC6F2C1612D9 /* Step0WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0B6F8E700568DE54F157B7 /* Step0WelcomeView.swift */; };
+		D282D63B4ABD3CF3B1F8982C /* LocationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E34D2B6BA562DE0007A718 /* LocationEditView.swift */; };
+		D491DE56885A8DFA72E84B9A /* DogCountSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BFA7712C509C55FAD9BE9A /* DogCountSelector.swift */; };
 		D8BE0F6A5C82A83386FF3928 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6C9F7084D398676FC6B33B /* User.swift */; };
 		D93EE62F879C20B1E3A46545 /* ScheduledWalk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664E978CE6C730F6578E65F1 /* ScheduledWalk.swift */; };
+		E2DD40EC6D6F95E8B9EB3E10 /* DogEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1D0F94C28E0062386A2DA1 /* DogEditViewModel.swift */; };
+		E9013DC5181807340CA4FB5E /* ScheduledWalkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BED01BF314293A53DA18F0 /* ScheduledWalkService.swift */; };
+		F0E8049F0F091C183E321132 /* DogAgeRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD66192885F849A95A48D53 /* DogAgeRange.swift */; };
+		F155F54637B9D6311B95B3BF /* Step1DogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB535BD615A2AE7D320737F /* Step1DogsView.swift */; };
+		F49CEA6FBD688EABF356EFDD /* DogMobility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430AE28E94C3888B72535073 /* DogMobility.swift */; };
+		F56476444413182B9D873B16 /* Step1DogFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B515687BF129980F7047384A /* Step1DogFormView.swift */; };
+		F6BBFCDEB8A16305E187FD2F /* Step3LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D85B85ACA2B1DDDF58FEDF /* Step3LocationView.swift */; };
+		F9B82B6D11DF7401A18F9E17 /* WalkingScheduleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0E392C2562473EA026C1E3 /* WalkingScheduleService.swift */; };
+		FA199F5F5E503A9C33869468 /* WalkLogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE36800BFF3F1FFD355F611 /* WalkLogService.swift */; };
 		FDEAB3F80BCDD66541C3819F /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5724537BE21CFDEEAE533C83 /* AuthViewModel.swift */; };
-		BB1122334455667788990022 /* ScheduledWalkStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1122334455667788990011 /* ScheduledWalkStatus.swift */; };
-		DD1122334455667788990044 /* CRUDDebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1122334455667788990033 /* CRUDDebugView.swift */; };
-		001122334455667788990077 /* DogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1122334455667788990066 /* DogService.swift */; };
-		221122334455667788990099 /* ScheduledWalkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111122334455667788990088 /* ScheduledWalkService.swift */; };
-		4411223344556677889900BB /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3311223344556677889900AA /* UserService.swift */; };
-		6611223344556677889900DD /* WalkLogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5511223344556677889900CC /* WalkLogService.swift */; };
-		8811223344556677889900FF /* WalkingScheduleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7711223344556677889900EE /* WalkingScheduleService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0960F7E13B1BC4D95EE9201A /* WalkingSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkingSchedule.swift; sourceTree = "<group>"; };
 		0F3AD94294FE6F03F86C8264 /* Breed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breed.swift; sourceTree = "<group>"; };
+		12601A0DD4FCFD4071C9C76D /* WeatherSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherSnapshot.swift; sourceTree = "<group>"; };
+		16777CACE298291973B984AF /* OnboardingContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContainerView.swift; sourceTree = "<group>"; };
+		1873E4D6130144EDEE5B478E /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		1C6C9F7084D398676FC6B33B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		22E133D77DDCA0CE971139D2 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		23DC58435CE4397A76151229 /* Step2WalkRoutineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step2WalkRoutineView.swift; sourceTree = "<group>"; };
+		24123098EAC7A627D965EEFD /* WalkingPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkingPreferencesView.swift; sourceTree = "<group>"; };
 		25D48835BD25A6C1134D6631 /* Dog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dog.swift; sourceTree = "<group>"; };
 		2A917DB645E6DBBCF3EDE40A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2D6EC987F7F5B521B5A21EC0 /* DogSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogSize.swift; sourceTree = "<group>"; };
+		2EB535BD615A2AE7D320737F /* Step1DogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step1DogsView.swift; sourceTree = "<group>"; };
 		3A405F675662BE99640B4CEA /* SteeleWalker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SteeleWalker.entitlements; sourceTree = "<group>"; };
+		3CD66192885F849A95A48D53 /* DogAgeRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogAgeRange.swift; sourceTree = "<group>"; };
 		3FC3E7F05244CAB76171BA2F /* DogHealthCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogHealthCondition.swift; sourceTree = "<group>"; };
 		410F165054CF1F10D1468EFF /* DogSensitivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogSensitivity.swift; sourceTree = "<group>"; };
+		430AE28E94C3888B72535073 /* DogMobility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogMobility.swift; sourceTree = "<group>"; };
 		50DC0B2D01CA58CE966D1812 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		549608D907F1538F4C89D967 /* SteeleWalkerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteeleWalkerApp.swift; sourceTree = "<group>"; };
 		5724537BE21CFDEEAE533C83 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		5EE36800BFF3F1FFD355F611 /* WalkLogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkLogService.swift; sourceTree = "<group>"; };
 		5F18D394004C836C29E408DB /* WalkLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkLog.swift; sourceTree = "<group>"; };
-		D62F657D70654D4FBA98D4E0 /* WeatherSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherSnapshot.swift; sourceTree = "<group>"; };
+		6454158663516C2BACF91663 /* DogEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogEditView.swift; sourceTree = "<group>"; };
 		664E978CE6C730F6578E65F1 /* ScheduledWalk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledWalk.swift; sourceTree = "<group>"; };
+		6C0FC567873FFD913D982933 /* CRUDDebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRUDDebugView.swift; sourceTree = "<group>"; };
+		703D8D37439190D13CB61902 /* BreedSearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedSearchField.swift; sourceTree = "<group>"; };
 		77D9F6751C81BBE3FD563CD6 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		7F79BD9FFE2D577357C5F413 /* OnboardingProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingProgressBar.swift; sourceTree = "<group>"; };
+		82598EED1F9FD1D909EFCBDF /* AddDogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDogView.swift; sourceTree = "<group>"; };
+		82C76368D27BA644FEF1E7B3 /* DogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogService.swift; sourceTree = "<group>"; };
+		83E34D2B6BA562DE0007A718 /* LocationEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditView.swift; sourceTree = "<group>"; };
+		8C49DEFC060D498361F2FA96 /* ScheduledWalkStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledWalkStatus.swift; sourceTree = "<group>"; };
+		8E831B70BC58D2DF1C470B4A /* Step4SensitivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step4SensitivitiesView.swift; sourceTree = "<group>"; };
+		9C1D0F94C28E0062386A2DA1 /* DogEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogEditViewModel.swift; sourceTree = "<group>"; };
+		A1BED01BF314293A53DA18F0 /* ScheduledWalkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledWalkService.swift; sourceTree = "<group>"; };
+		AAC80374B31AF4BD37EA80F6 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		AE55DE936539C8E01FDE7FA2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B1DDEDAF5272443634E862C9 /* SteeleWalker.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SteeleWalker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B515687BF129980F7047384A /* Step1DogFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step1DogFormView.swift; sourceTree = "<group>"; };
+		C312218AC2D5D424C4317C3A /* WalkingPreferencesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkingPreferencesViewModel.swift; sourceTree = "<group>"; };
+		C6BFA7712C509C55FAD9BE9A /* DogCountSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogCountSelector.swift; sourceTree = "<group>"; };
 		CBFC7E8D1899E00A6B1D4DA1 /* BreedSeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedSeed.swift; sourceTree = "<group>"; };
+		D5D85B85ACA2B1DDDF58FEDF /* Step3LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step3LocationView.swift; sourceTree = "<group>"; };
 		D96538B09D06C1C599A7EAF3 /* ScheduleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleType.swift; sourceTree = "<group>"; };
-		AA1122334455667788990011 /* ScheduledWalkStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledWalkStatus.swift; sourceTree = "<group>"; };
-		CC1122334455667788990033 /* CRUDDebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRUDDebugView.swift; sourceTree = "<group>"; };
-		FF1122334455667788990066 /* DogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogService.swift; sourceTree = "<group>"; };
-		111122334455667788990088 /* ScheduledWalkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledWalkService.swift; sourceTree = "<group>"; };
-		3311223344556677889900AA /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-		5511223344556677889900CC /* WalkLogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkLogService.swift; sourceTree = "<group>"; };
-		7711223344556677889900EE /* WalkingScheduleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkingScheduleService.swift; sourceTree = "<group>"; };
+		EB0B6F8E700568DE54F157B7 /* Step0WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step0WelcomeView.swift; sourceTree = "<group>"; };
+		FE0E392C2562473EA026C1E3 /* WalkingScheduleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkingScheduleService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +133,7 @@
 		0BB47A1B2F3C80E55D7A3C27 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				24123098EAC7A627D965EEFD /* WalkingPreferencesView.swift */,
 				77D9F6751C81BBE3FD563CD6 /* WelcomeView.swift */,
 			);
 			path = Views;
@@ -106,12 +147,64 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		4A43ADC999E9828AC83D1315 /* Steps */ = {
+			isa = PBXGroup;
+			children = (
+				EB0B6F8E700568DE54F157B7 /* Step0WelcomeView.swift */,
+				B515687BF129980F7047384A /* Step1DogFormView.swift */,
+				2EB535BD615A2AE7D320737F /* Step1DogsView.swift */,
+				23DC58435CE4397A76151229 /* Step2WalkRoutineView.swift */,
+				D5D85B85ACA2B1DDDF58FEDF /* Step3LocationView.swift */,
+				8E831B70BC58D2DF1C470B4A /* Step4SensitivitiesView.swift */,
+			);
+			path = Steps;
+			sourceTree = "<group>";
+		};
+		560023519C2BDC258B1220D3 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				16777CACE298291973B984AF /* OnboardingContainerView.swift */,
+				1873E4D6130144EDEE5B478E /* OnboardingViewModel.swift */,
+				9AB1C505E910679CDDBCE24B /* Components */,
+				4A43ADC999E9828AC83D1315 /* Steps */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		56509D9DD9ABDF3B07333EED /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				B1DDEDAF5272443634E862C9 /* SteeleWalker.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		6556870406363EFC3F96B52C /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				6C0FC567873FFD913D982933 /* CRUDDebugView.swift */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
+		7AFC95F75F1C8E7E2A4E703F /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C312218AC2D5D424C4317C3A /* WalkingPreferencesViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		7CAF4DBEB9ACF4C90043DF5F /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				82598EED1F9FD1D909EFCBDF /* AddDogView.swift */,
+				6454158663516C2BACF91663 /* DogEditView.swift */,
+				9C1D0F94C28E0062386A2DA1 /* DogEditViewModel.swift */,
+				83E34D2B6BA562DE0007A718 /* LocationEditView.swift */,
+				AAC80374B31AF4BD37EA80F6 /* ProfileView.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		7D3CF6C3B165B5F9A58EDCCA /* SteeleWalker */ = {
@@ -123,11 +216,14 @@
 				3A405F675662BE99640B4CEA /* SteeleWalker.entitlements */,
 				549608D907F1538F4C89D967 /* SteeleWalkerApp.swift */,
 				379DD54CEF725AD99F5076BC /* Auth */,
+				6556870406363EFC3F96B52C /* Debug */,
 				B7396CEDE99B0718F102AD5A /* Models */,
+				560023519C2BDC258B1220D3 /* Onboarding */,
+				7CAF4DBEB9ACF4C90043DF5F /* Profile */,
 				F3E1B98A64680D9A14B61349 /* Seeds */,
+				BB09719E0B86144B4D918E50 /* Services */,
+				7AFC95F75F1C8E7E2A4E703F /* ViewModels */,
 				0BB47A1B2F3C80E55D7A3C27 /* Views */,
-				EE1122334455667788990055 /* Debug */,
-				9911223344556677889900AA /* Services */,
 			);
 			path = SteeleWalker;
 			sourceTree = "<group>";
@@ -135,13 +231,25 @@
 		8A631A2E0FFAC3AC1CCB2D6E /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				3CD66192885F849A95A48D53 /* DogAgeRange.swift */,
 				3FC3E7F05244CAB76171BA2F /* DogHealthCondition.swift */,
+				430AE28E94C3888B72535073 /* DogMobility.swift */,
 				410F165054CF1F10D1468EFF /* DogSensitivity.swift */,
 				2D6EC987F7F5B521B5A21EC0 /* DogSize.swift */,
+				8C49DEFC060D498361F2FA96 /* ScheduledWalkStatus.swift */,
 				D96538B09D06C1C599A7EAF3 /* ScheduleType.swift */,
-				AA1122334455667788990011 /* ScheduledWalkStatus.swift */,
 			);
 			path = Enums;
+			sourceTree = "<group>";
+		};
+		9AB1C505E910679CDDBCE24B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				703D8D37439190D13CB61902 /* BreedSearchField.swift */,
+				C6BFA7712C509C55FAD9BE9A /* DogCountSelector.swift */,
+				7F79BD9FFE2D577357C5F413 /* OnboardingProgressBar.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		B7396CEDE99B0718F102AD5A /* Models */ = {
@@ -153,10 +261,22 @@
 				1C6C9F7084D398676FC6B33B /* User.swift */,
 				0960F7E13B1BC4D95EE9201A /* WalkingSchedule.swift */,
 				5F18D394004C836C29E408DB /* WalkLog.swift */,
-			D62F657D70654D4FBA98D4E0 /* WeatherSnapshot.swift */,
+				12601A0DD4FCFD4071C9C76D /* WeatherSnapshot.swift */,
 				8A631A2E0FFAC3AC1CCB2D6E /* Enums */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		BB09719E0B86144B4D918E50 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				82C76368D27BA644FEF1E7B3 /* DogService.swift */,
+				A1BED01BF314293A53DA18F0 /* ScheduledWalkService.swift */,
+				22E133D77DDCA0CE971139D2 /* UserService.swift */,
+				FE0E392C2562473EA026C1E3 /* WalkingScheduleService.swift */,
+				5EE36800BFF3F1FFD355F611 /* WalkLogService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		F3E1B98A64680D9A14B61349 /* Seeds */ = {
@@ -165,26 +285,6 @@
 				CBFC7E8D1899E00A6B1D4DA1 /* BreedSeed.swift */,
 			);
 			path = Seeds;
-			sourceTree = "<group>";
-		};
-		EE1122334455667788990055 /* Debug */ = {
-			isa = PBXGroup;
-			children = (
-				CC1122334455667788990033 /* CRUDDebugView.swift */,
-			);
-			path = Debug;
-			sourceTree = "<group>";
-		};
-		9911223344556677889900AA /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				FF1122334455667788990066 /* DogService.swift */,
-				111122334455667788990088 /* ScheduledWalkService.swift */,
-				3311223344556677889900AA /* UserService.swift */,
-				5511223344556677889900CC /* WalkLogService.swift */,
-				7711223344556677889900EE /* WalkingScheduleService.swift */,
-			);
-			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,29 +361,49 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				162E842E4BEACBC5977D772D /* AddDogView.swift in Sources */,
 				FDEAB3F80BCDD66541C3819F /* AuthViewModel.swift in Sources */,
 				AE127B2882F7DB3C7A5995B0 /* Breed.swift in Sources */,
+				95C298A9886D55B1CC7CB086 /* BreedSearchField.swift in Sources */,
 				5399979D0B9A21246C43C7FB /* BreedSeed.swift in Sources */,
+				A3948271261026116981C1DC /* CRUDDebugView.swift in Sources */,
 				081E25CC92A9D5B14A2176A2 /* ContentView.swift in Sources */,
 				7A35111EF487198C58F2924A /* Dog.swift in Sources */,
+				F0E8049F0F091C183E321132 /* DogAgeRange.swift in Sources */,
+				D491DE56885A8DFA72E84B9A /* DogCountSelector.swift in Sources */,
+				74E3CBA0F9351E1856B9F638 /* DogEditView.swift in Sources */,
+				E2DD40EC6D6F95E8B9EB3E10 /* DogEditViewModel.swift in Sources */,
 				60B25700BBDC3827983C1C78 /* DogHealthCondition.swift in Sources */,
+				F49CEA6FBD688EABF356EFDD /* DogMobility.swift in Sources */,
 				32BBC486106969FC7245E321 /* DogSensitivity.swift in Sources */,
+				45ED73734878F34ED099829C /* DogService.swift in Sources */,
 				306853D80ABE4264013C8F85 /* DogSize.swift in Sources */,
+				D282D63B4ABD3CF3B1F8982C /* LocationEditView.swift in Sources */,
+				22A778A12078AE44662B08DF /* OnboardingContainerView.swift in Sources */,
+				6C1D8362083DC52BCA1F629B /* OnboardingProgressBar.swift in Sources */,
+				97D9C6279B306DAE6BF518B1 /* OnboardingViewModel.swift in Sources */,
+				40407136E62EE07D29876FF9 /* ProfileView.swift in Sources */,
 				44CBA6A32A15F25027DF79BE /* ScheduleType.swift in Sources */,
 				D93EE62F879C20B1E3A46545 /* ScheduledWalk.swift in Sources */,
+				E9013DC5181807340CA4FB5E /* ScheduledWalkService.swift in Sources */,
+				5A5D9EDC9A6429CC71562438 /* ScheduledWalkStatus.swift in Sources */,
 				A1D67C5F4F1ADE433691C959 /* SteeleWalkerApp.swift in Sources */,
+				CCBB1289250CCC6F2C1612D9 /* Step0WelcomeView.swift in Sources */,
+				F56476444413182B9D873B16 /* Step1DogFormView.swift in Sources */,
+				F155F54637B9D6311B95B3BF /* Step1DogsView.swift in Sources */,
+				920B2D41A2A798423E1869BD /* Step2WalkRoutineView.swift in Sources */,
+				F6BBFCDEB8A16305E187FD2F /* Step3LocationView.swift in Sources */,
+				1FB1426C6CFCFCE0AB32A5FF /* Step4SensitivitiesView.swift in Sources */,
 				D8BE0F6A5C82A83386FF3928 /* User.swift in Sources */,
+				91AF6AC8CD03A023538A5AC1 /* UserService.swift in Sources */,
 				482B591B142762FF5787FEA1 /* WalkLog.swift in Sources */,
-			F15D30FB0DF54645A3A3102D /* WeatherSnapshot.swift in Sources */,
+				FA199F5F5E503A9C33869468 /* WalkLogService.swift in Sources */,
+				88296615EE3F2925ACD8AB8B /* WalkingPreferencesView.swift in Sources */,
+				4C83171B962CF871CB769F4D /* WalkingPreferencesViewModel.swift in Sources */,
 				B3F1CE4541CCD733DF02B660 /* WalkingSchedule.swift in Sources */,
+				F9B82B6D11DF7401A18F9E17 /* WalkingScheduleService.swift in Sources */,
+				A07C495504A17892FFBA5E28 /* WeatherSnapshot.swift in Sources */,
 				07806ACEA0EF2B68FD157CDE /* WelcomeView.swift in Sources */,
-				BB1122334455667788990022 /* ScheduledWalkStatus.swift in Sources */,
-				DD1122334455667788990044 /* CRUDDebugView.swift in Sources */,
-				001122334455667788990077 /* DogService.swift in Sources */,
-				221122334455667788990099 /* ScheduledWalkService.swift in Sources */,
-				4411223344556677889900BB /* UserService.swift in Sources */,
-				6611223344556677889900DD /* WalkLogService.swift in Sources */,
-				8811223344556677889900FF /* WalkingScheduleService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,14 +455,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};
@@ -397,7 +517,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -405,7 +525,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -416,14 +536,14 @@
 				CODE_SIGN_ENTITLEMENTS = SteeleWalker/SteeleWalker.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = SteeleWalker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.steelewalker.app;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.9;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -435,14 +555,14 @@
 				CODE_SIGN_ENTITLEMENTS = SteeleWalker/SteeleWalker.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = SteeleWalker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.steelewalker.app;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.9;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

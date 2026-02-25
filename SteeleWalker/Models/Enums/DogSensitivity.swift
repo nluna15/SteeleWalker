@@ -11,6 +11,7 @@ enum DogSensitivity: String, Codable, CaseIterable {
     case extremeHeat      = "extreme_heat"
     case extremeCold      = "extreme_cold"
     case wind             = "wind"
+    case allergens        = "allergens"
 
     var displayName: String {
         switch self {
@@ -19,6 +20,18 @@ enum DogSensitivity: String, Codable, CaseIterable {
         case .extremeHeat:      return "Extreme Heat"
         case .extremeCold:      return "Extreme Cold"
         case .wind:             return "Wind"
+        case .allergens:        return "Allergens"
+        }
+    }
+
+    var systemImage: String {
+        switch self {
+        case .rain:             return "cloud.rain"
+        case .thunderLightning: return "cloud.bolt.rain"
+        case .extremeHeat:      return "thermometer.sun.fill"
+        case .extremeCold:      return "thermometer.snowflake"
+        case .wind:             return "wind"
+        case .allergens:        return "leaf.circle"
         }
     }
 }
