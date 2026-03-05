@@ -55,6 +55,7 @@
 		F9B82B6D11DF7401A18F9E17 /* WalkingScheduleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0E392C2562473EA026C1E3 /* WalkingScheduleService.swift */; };
 		FA199F5F5E503A9C33869468 /* WalkLogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE36800BFF3F1FFD355F611 /* WalkLogService.swift */; };
 		FDEAB3F80BCDD66541C3819F /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5724537BE21CFDEEAE533C83 /* AuthViewModel.swift */; };
+		A3C7F1E2B5D84901C6E87F34 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D291F3A4C2E75081F36DAE /* WeatherService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +81,7 @@
 		549608D907F1538F4C89D967 /* SteeleWalkerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteeleWalkerApp.swift; sourceTree = "<group>"; };
 		5724537BE21CFDEEAE533C83 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		5EE36800BFF3F1FFD355F611 /* WalkLogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkLogService.swift; sourceTree = "<group>"; };
+		B8D291F3A4C2E75081F36DAE /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		5F18D394004C836C29E408DB /* WalkLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkLog.swift; sourceTree = "<group>"; };
 		6454158663516C2BACF91663 /* DogEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogEditView.swift; sourceTree = "<group>"; };
 		664E978CE6C730F6578E65F1 /* ScheduledWalk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledWalk.swift; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 				22E133D77DDCA0CE971139D2 /* UserService.swift */,
 				FE0E392C2562473EA026C1E3 /* WalkingScheduleService.swift */,
 				5EE36800BFF3F1FFD355F611 /* WalkLogService.swift */,
+				B8D291F3A4C2E75081F36DAE /* WeatherService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 				91AF6AC8CD03A023538A5AC1 /* UserService.swift in Sources */,
 				482B591B142762FF5787FEA1 /* WalkLog.swift in Sources */,
 				FA199F5F5E503A9C33869468 /* WalkLogService.swift in Sources */,
+				A3C7F1E2B5D84901C6E87F34 /* WeatherService.swift in Sources */,
 				88296615EE3F2925ACD8AB8B /* WalkingPreferencesView.swift in Sources */,
 				4C83171B962CF871CB769F4D /* WalkingPreferencesViewModel.swift in Sources */,
 				B3F1CE4541CCD733DF02B660 /* WalkingSchedule.swift in Sources */,

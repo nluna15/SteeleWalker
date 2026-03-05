@@ -65,21 +65,23 @@ struct CRUDDebugView: View {
                 // MARK: - WalkingSchedule
                 Section("WalkingSchedule") {
                     Button("Set Weekday Schedule") { run("Set Weekday Schedule") {
-                        let slots = [WalkSlotInput(preferredTime: "09:00", durationMinutes: 30, walkOrder: 1)]
+                        let slots: [WalkSlotInput] = [
+                            WalkSlotInput(preferredTime: "09:00", durationMinutes: 30, walkOrder: 1)
+                        ]
                         try await WalkingScheduleService.setSchedule(
                             userId: uid,
-                            scheduleType: "weekday",
-                            walksPerDay: 1,
+                            scheduleType: "weekday", walksPerDay: 1,
                             slots: slots
                         )
                         return "ok"
                     }}
                     Button("Set Weekday Again (idempotent)") { run("Set Weekday Again") {
-                        let slots = [WalkSlotInput(preferredTime: "10:00", durationMinutes: 45, walkOrder: 1)]
+                        let slots: [WalkSlotInput] = [
+                            WalkSlotInput(preferredTime: "10:00", durationMinutes: 45, walkOrder: 1)
+                        ]
                         try await WalkingScheduleService.setSchedule(
                             userId: uid,
-                            scheduleType: "weekday",
-                            walksPerDay: 1,
+                            scheduleType: "weekday", walksPerDay: 1,
                             slots: slots
                         )
                         return "ok"
@@ -158,6 +160,14 @@ struct CRUDDebugView: View {
                         guard let walkId = debugScheduledWalkId else { throw TestError.noWalkId }
                         try await WalkLogService.deleteWalkLog(id: logId, scheduledWalkId: walkId)
                         return "ok"
+                    }}
+                }
+
+                // MARK: - Weather
+                Section("Weather") {
+                    Button("Fetch Weather (LA)") { run("Fetch Weather") {
+                        let snap = try await WeatherService.fetchCurrentWeather(lat: 34.05, lon: -118.24)
+                        return "\(snap.conditionText), \(snap.temperatureF)°F, humidity \(snap.humidity)%"
                     }}
                 }
 

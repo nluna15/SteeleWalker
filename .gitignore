@@ -1,3 +1,17 @@
+# Environment / secrets
+functions/.env
+functions/.env.local
+functions/.env.*.local
+
+# Firebase Functions build artifacts
+functions/node_modules/
+functions/lib/
+
+# Firebase emulator logs
+firestore-debug.log
+firebase-debug.log
+ui-debug.log
+
 # Xcode
 *.xcworkspace/xcuserdata/
 *.xcodeproj/xcuserdata/
