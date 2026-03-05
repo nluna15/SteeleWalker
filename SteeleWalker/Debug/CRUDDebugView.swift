@@ -2,13 +2,12 @@
 import SwiftUI
 import FirebaseFirestore
 
-private var debugDogId: String?
-private var debugScheduledWalkId: String?
-private var debugWalkLogId: String?
-
 struct CRUDDebugView: View {
     @EnvironmentObject var auth: AuthViewModel
     @State private var log: [String] = []
+    @State private var debugDogId: String?
+    @State private var debugScheduledWalkId: String?
+    @State private var debugWalkLogId: String?
 
     var body: some View {
         NavigationStack {
@@ -34,7 +33,7 @@ struct CRUDDebugView: View {
                         let id = try await DogService.addDog(
                             userId: uid,
                             name: "Debug Dog",
-                            breedId: "breed_123",
+                            breedIds: ["breed_123"],
                             size: "medium"
                         )
                         debugDogId = id
@@ -66,31 +65,23 @@ struct CRUDDebugView: View {
                 // MARK: - WalkingSchedule
                 Section("WalkingSchedule") {
                     Button("Set Weekday Schedule") { run("Set Weekday Schedule") {
-                        let slots: [[String: Any]] = [
-                            [
-                                "preferred_time": "09:00",
-                                "duration_minutes": 30,
-                                "walk_order": 1
-                            ]
+                        let slots: [WalkSlotInput] = [
+                            WalkSlotInput(preferredTime: "09:00", durationMinutes: 30, walkOrder: 1)
                         ]
                         try await WalkingScheduleService.setSchedule(
                             userId: uid,
-                            scheduleType: "weekday",
+                            scheduleType: "weekday", walksPerDay: 1,
                             slots: slots
                         )
                         return "ok"
                     }}
                     Button("Set Weekday Again (idempotent)") { run("Set Weekday Again") {
-                        let slots: [[String: Any]] = [
-                            [
-                                "preferred_time": "10:00",
-                                "duration_minutes": 45,
-                                "walk_order": 1
-                            ]
+                        let slots: [WalkSlotInput] = [
+                            WalkSlotInput(preferredTime: "10:00", durationMinutes: 45, walkOrder: 1)
                         ]
                         try await WalkingScheduleService.setSchedule(
                             userId: uid,
-                            scheduleType: "weekday",
+                            scheduleType: "weekday", walksPerDay: 1,
                             slots: slots
                         )
                         return "ok"
@@ -169,6 +160,14 @@ struct CRUDDebugView: View {
                         guard let walkId = debugScheduledWalkId else { throw TestError.noWalkId }
                         try await WalkLogService.deleteWalkLog(id: logId, scheduledWalkId: walkId)
                         return "ok"
+                    }}
+                }
+
+                // MARK: - Weather
+                Section("Weather") {
+                    Button("Fetch Weather (LA)") { run("Fetch Weather") {
+                        let snap = try await WeatherService.fetchCurrentWeather(lat: 34.05, lon: -118.24)
+                        return "\(snap.conditionText), \(snap.temperatureF)°F, humidity \(snap.humidity)%"
                     }}
                 }
 

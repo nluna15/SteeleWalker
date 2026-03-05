@@ -42,6 +42,9 @@ struct WeatherSnapshot: Codable {
     /// UV index (0–11+).
     let uvIndex: Int
 
+    /// Air Quality Index (EPA scale, 0–500+), or nil if unavailable.
+    let aqi: Int?
+
     /// Timestamp when Tomorrow.io was queried.
     let capturedAt: Date
 
@@ -55,6 +58,7 @@ struct WeatherSnapshot: Codable {
         case weatherCode     = "weather_code"
         case conditionText   = "condition_text"
         case uvIndex         = "uv_index"
+        case aqi             = "aqi"
         case capturedAt      = "captured_at"
     }
 }

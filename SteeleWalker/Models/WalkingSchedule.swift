@@ -46,6 +46,12 @@ struct WalkingSchedule: Codable, Identifiable {
     /// Whether this schedule applies on weekdays or weekends.
     let scheduleType: ScheduleType
 
+    /// The owner's intended number of walks per day for this schedule.
+    /// Persisted explicitly so the recommendation engine has an unambiguous
+    /// intent signal separate from `slots.count` (which reflects selected time
+    /// preferences, not necessarily the desired total walk count).
+    let walksPerDay: Int
+
     /// Ordered walk slots for this schedule. Ordered by `walkOrder` ascending.
     let slots: [WalkSlot]
 
@@ -56,6 +62,7 @@ struct WalkingSchedule: Codable, Identifiable {
         case id
         case userId       = "user_id"
         case scheduleType = "schedule_type"
+        case walksPerDay  = "walks_per_day"
         case slots
         case createdAt    = "created_at"
         case updatedAt    = "updated_at"

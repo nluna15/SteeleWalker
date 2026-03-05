@@ -17,8 +17,10 @@ struct ContentView: View {
                     #endif
 
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button("Sign Out") {
-                            auth.signOut()
+                        NavigationLink {
+                            ProfileView()
+                        } label: {
+                            Image(systemName: "person.circle")
                         }
                     }
                 }

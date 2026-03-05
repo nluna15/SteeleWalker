@@ -32,11 +32,21 @@ struct SteeleWalkerApp: App {
 
 private struct RootView: View {
     @EnvironmentObject var auth: AuthViewModel
+    @State private var localOnboardingDone: Bool = false
+
+    private var hasCompletedOnboarding: Bool {
+        guard let uid = auth.currentUser?.uid else { return false }
+        return localOnboardingDone || UserDefaults.standard.bool(forKey: "onboardingComplete_\(uid)")
+    }
 
     var body: some View {
         Group {
             if auth.currentUser == nil {
                 WelcomeView()
+            } else if !hasCompletedOnboarding {
+                OnboardingContainerView {
+                    localOnboardingDone = true
+                }
             } else {
                 ContentView()
             }

@@ -1,9 +1,9 @@
 # SteeleWalker REST API Contract
 
-**Version:** 1.0
-**Status:** Design Document (No implementation)
-**Last Updated:** 2026-02-23
-**Scope:** Internal services only (recommendation engine, scheduled background jobs)
+**Version:** 1.1
+**Status:** Partially Implemented (NEH-47: weather forecast endpoint live)
+**Last Updated:** 2026-03-04
+**Scope:** Weather forecast endpoint (client-facing); recommendation engine / background jobs (internal)
 
 ---
 
@@ -36,6 +36,7 @@ Natural fit given the existing Firebase infrastructure:
 | Caller | Method | Collections |
 |--------|--------|-------------|
 | **iOS Client** | Direct Firestore SDK | `users`, `dogs`, `walk_logs`, `scheduled_walks`, `walking_schedules`, `breeds` |
+| **iOS Client** | REST API — weather endpoint only | `GET /weather/forecast/hourly` (secure proxy to Tomorrow.io) |
 | **Recommendation Engine** | REST API (this doc) | Reads: `walking_schedules`; Writes: `scheduled_walks` (with `weather_snapshot`) |
 | **Background Jobs** | REST API (this doc) | Reads: various; Writes: `scheduled_walks` |
 
@@ -74,7 +75,104 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjEyMyJ9.eyJzdWIiOiJ1c2VyLWFiY
 
 ## Endpoints
 
-### 1. POST /scheduled-walks/generate
+### 1. GET /weather/forecast/hourly
+
+**Purpose:** Return current weather conditions + 48 hours of hourly forecast for a given location. Acts as a secure proxy to Tomorrow.io — the API key is kept server-side.
+
+**Auth:** Firebase ID token (Bearer). The iOS app obtains a token via `Auth.auth().currentUser?.getIDToken()`.
+
+**Emulator URL:** `http://localhost:5001/<project>/us-central1/weatherForecastHourly`
+
+#### Request
+
+```http
+GET /weather/forecast/hourly?lat=34.05&lon=-118.24
+Authorization: Bearer <Firebase ID Token>
+```
+
+| Param | Type | Required | Notes |
+|-------|------|----------|-------|
+| `lat` | number | Yes | Latitude (−90 to 90) |
+| `lon` | number | Yes | Longitude (−180 to 180) |
+| `units` | string | No | `"imperial"` (default) or `"metric"` |
+
+#### Response
+
+**200 OK**
+
+```json
+{
+  "current": {
+    "temperature_f": 72.0,
+    "feels_like_f": 70.0,
+    "humidity": 60,
+    "wind_speed_mph": 8.0,
+    "precip_probability": 10,
+    "precip_type": null,
+    "weather_code": 1000,
+    "condition_text": "Clear",
+    "uv_index": 5,
+    "aqi": 42,
+    "captured_at": "2026-03-04T16:00:00.000Z"
+  },
+  "hourly": [
+    {
+      "temperature_f": 71.0,
+      "feels_like_f": 69.5,
+      "humidity": 62,
+      "wind_speed_mph": 7.5,
+      "precip_probability": 5,
+      "precip_type": null,
+      "weather_code": 1100,
+      "condition_text": "Mostly Clear",
+      "uv_index": 4,
+      "aqi": 40,
+      "captured_at": "2026-03-04T16:00:00.000Z",
+      "local_timestamp": "2026-03-04T08:00:00-08:00"
+    }
+    // ... 47 more entries
+  ],
+  "timezone": "America/Los_Angeles"
+}
+```
+
+#### WeatherEntry Fields
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `temperature_f` | number | Actual temperature in °F |
+| `feels_like_f` | number | Apparent ("feels like") temperature in °F |
+| `humidity` | integer | Relative humidity, 0–100 |
+| `wind_speed_mph` | number | Wind speed in mph |
+| `precip_probability` | integer | Precipitation probability, 0–100 |
+| `precip_type` | string or null | `"rain"`, `"snow"`, `"freezing_rain"`, `"ice_pellets"`, or `null` |
+| `weather_code` | integer | Tomorrow.io weather code (e.g. 1000 = Clear, 8000 = Thunderstorm) |
+| `condition_text` | string | Human-readable label derived from `weather_code` |
+| `uv_index` | integer | UV index, 0–11+ |
+| `aqi` | integer or null | EPA Air Quality Index (0–500+); null if location has no AQI data |
+| `captured_at` | string (ISO 8601 UTC) | Timestamp when Tomorrow.io was queried |
+| `local_timestamp` | string (ISO 8601 with offset) | Hourly entries only; e.g. `"2026-03-04T08:00:00-08:00"` |
+
+#### Error Responses
+
+| Status | Code | Reason |
+|--------|------|--------|
+| 400 | `INVALID_REQUEST` | Missing or non-numeric `lat`/`lon`, or out-of-range values |
+| 401 | `UNAUTHORIZED` | Missing or invalid Bearer token |
+| 502 | `UPSTREAM_ERROR` | Tomorrow.io returned a non-2xx response |
+| 503 | `UPSTREAM_RATE_LIMIT` | Tomorrow.io rate limit hit; retry later |
+| 500 | `INTERNAL_ERROR` | Unexpected server error |
+
+#### Notes
+
+- Tomorrow.io is the weather provider (not WeatherAPI.com)
+- `aqi` uses the EPA index scale, sourced from Tomorrow.io's `epaIndex` field
+- iOS-side integration (calling this endpoint + rendering forecast UI) is out of scope for NEH-47
+- `zip` / `city` query params may be added in a follow-up ticket; for now, `lat`/`lon` is required
+
+---
+
+### 2. POST /scheduled-walks/generate
 
 **Purpose:** Generate `ScheduledWalk` instances from user's `WalkingSchedule` templates.
 
@@ -209,6 +307,7 @@ Content-Type: application/json
 | `weatherCode` | integer | Yes | Tomorrow.io weather code (e.g., 1000 = Clear, 4001 = Rain, 8000 = Thunderstorm) |
 | `conditionText` | string | Yes | Human-readable condition (e.g., `"Clear"`, `"Rain"`, `"Thunderstorm"`) |
 | `uvIndex` | integer | Yes | UV index, 0–11+ |
+| `aqi` | integer or null | No | EPA Air Quality Index (0–500+); null if unavailable |
 | `capturedAt` | string (ISO 8601) | Yes | Timestamp when data was fetched from Tomorrow.io |
 
 #### Response
@@ -396,6 +495,7 @@ These can be added as separate tickets once the foundation is in place.
 
 | Endpoint | Method | Auth | Collections | Purpose |
 |----------|--------|------|-------------|---------|
+| `/weather/forecast/hourly` | GET | Bearer token | None | Secure proxy to Tomorrow.io; current + 48h hourly forecast |
 | `/scheduled-walks/generate` | POST | Bearer token | R: `walking_schedules`; W: `scheduled_walks` | Recommendation engine generates walk instances |
 | `/scheduled-walks/:id/weather` | POST | Bearer token | R: `scheduled_walks`; W: `scheduled_walks` | Attach weather snapshot to a walk |
 

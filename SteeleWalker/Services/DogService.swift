@@ -8,7 +8,7 @@ struct DogService {
     static func addDog(
         userId: String,
         name: String,
-        breedId: String,
+        breedIds: [String],
         size: String,
         healthConditions: [String] = [],
         sensitivities: [String] = [],
@@ -25,7 +25,7 @@ struct DogService {
             "id":                ref.documentID,
             "user_id":           userId,
             "name":              name,
-            "breed_id":          breedId,
+            "breed_ids":         breedIds,
             "size":              size,
             "health_conditions": healthConditions,
             "sensitivities":     sensitivities,

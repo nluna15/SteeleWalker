@@ -12,6 +12,6 @@ struct UserService {
     /// `["name": "New Name", "updated_at": FieldValue.serverTimestamp()]`
     static func updateUser(uid: String, fields: [String: Any]) async throws {
         let db = Firestore.firestore()
-        try await db.collection("users").document(uid).updateData(fields)
+        try await db.collection("users").document(uid).setData(fields, merge: true)
     }
 }
