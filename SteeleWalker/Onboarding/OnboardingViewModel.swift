@@ -72,10 +72,10 @@ class OnboardingViewModel: ObservableObject {
     @Published var selectedTimes: Set<WalkTime> = []
 
     // MARK: Step 3 — Location
-    @Published var useZipCode: Bool = true
-    @Published var zipCode: String = ""
-    @Published var neighborhood: String = ""
-    @Published var city: String = ""
+    @Published var useGPS: Bool = false
+    @Published var locationText: String = ""
+    @Published var gpsLatitude: Double?
+    @Published var gpsLongitude: Double?
 
     // MARK: Step 4 — Sensitivities
     @Published var selectedSensitivities: Set<DogSensitivity> = []
@@ -117,11 +117,10 @@ class OnboardingViewModel: ObservableObject {
     }
 
     var isStep3Valid: Bool {
-        if useZipCode {
-            return zipCode.range(of: #"^\d{5}$"#, options: .regularExpression) != nil
+        if useGPS {
+            return gpsLatitude != nil && gpsLongitude != nil
         } else {
-            return !neighborhood.trimmingCharacters(in: .whitespaces).isEmpty
-                && !city.trimmingCharacters(in: .whitespaces).isEmpty
+            return !locationText.trimmingCharacters(in: .whitespaces).isEmpty
         }
     }
 
@@ -188,11 +187,17 @@ class OnboardingViewModel: ObservableObject {
             ], forDocument: scheduleRef, merge: true)
 
             // 3. Queue location write
-            var locationDict: [String: Any] = ["type": "manual"]
-            if useZipCode {
-                locationDict["zip_code"] = zipCode
+            var locationDict: [String: Any]
+            if useGPS, let lat = gpsLatitude, let lon = gpsLongitude {
+                locationDict = ["type": "gps", "lat": lat, "long": lon]
             } else {
-                locationDict["city"] = "\(neighborhood), \(city)"
+                locationDict = ["type": "manual"]
+                let trimmed = locationText.trimmingCharacters(in: .whitespaces)
+                if trimmed.range(of: #"^\d{5}$"#, options: .regularExpression) != nil {
+                    locationDict["zip_code"] = trimmed
+                } else {
+                    locationDict["city"] = trimmed
+                }
             }
             let userRef = db.collection("users").document(userId)
             batch.setData(["location": locationDict], forDocument: userRef, merge: true)

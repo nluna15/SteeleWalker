@@ -26,6 +26,7 @@ struct SteeleWalkerApp: App {
         WindowGroup {
             RootView()
                 .environmentObject(auth)
+                .environmentObject(LocationManager.shared)
         }
     }
 }

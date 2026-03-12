@@ -1,5 +1,5 @@
-import CoreLocation
 import Foundation
+import MapKit
 import FirebaseAuth
 
 struct WeatherService {
@@ -36,11 +36,14 @@ struct WeatherService {
             throw WeatherError.unresolvableLocation
         }
 
-        let placemarks = try await CLGeocoder().geocodeAddressString(query)
-        guard let coordinate = placemarks.first?.location?.coordinate else {
+        guard let request = MKGeocodingRequest(addressString: query) else {
             throw WeatherError.geocodingFailed(query)
         }
-        return (coordinate.latitude, coordinate.longitude)
+        let mapItems = try await request.mapItems
+        guard let location = mapItems.first?.location else {
+            throw WeatherError.geocodingFailed(query)
+        }
+        return (location.coordinate.latitude, location.coordinate.longitude)
     }
 
     static func fetchCurrentWeather(lat: Double, lon: Double) async throws -> WeatherSnapshot {
@@ -84,7 +87,7 @@ enum WeatherError: LocalizedError {
         case .notAuthenticated:         return "Not signed in"
         case .httpError(let body):      return "HTTP error: \(body)"
         case .unresolvableLocation:     return "No usable location (no GPS, zip, or city)"
-        case .geocodingFailed(let q):   return "Could not geocode "\(q)""
+        case .geocodingFailed(let q):   return "Could not geocode \"\(q)\""
         }
     }
 }

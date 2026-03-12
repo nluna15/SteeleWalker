@@ -2,10 +2,7 @@ import SwiftUI
 
 struct Step3LocationView: View {
     @ObservedObject var vm: OnboardingViewModel
-
-    private var isZipValid: Bool {
-        vm.zipCode.range(of: #"^\d{5}$"#, options: .regularExpression) != nil
-    }
+    @EnvironmentObject var locationManager: LocationManager
 
     var body: some View {
         ScrollView {
@@ -18,54 +15,84 @@ struct Step3LocationView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                // Toggle ZIP vs Neighborhood
-                Picker("Location type", selection: $vm.useZipCode) {
-                    Text("ZIP Code").tag(true)
-                    Text("Neighborhood").tag(false)
-                }
-                .pickerStyle(.segmented)
-
-                if vm.useZipCode {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("ZIP Code")
-                            .font(.subheadline.weight(.medium))
-                        TextField("e.g. 90210", text: $vm.zipCode)
-                            .textFieldStyle(.roundedBorder)
-                            .keyboardType(.numberPad)
-                            .onChange(of: vm.zipCode) { _, newValue in
-                                vm.zipCode = String(newValue.filter(\.isNumber).prefix(5))
+                // Option 1 — Share My Location
+                Button {
+                    Task {
+                        await locationManager.fetchCurrentLocation()
+                    }
+                } label: {
+                    HStack(spacing: 10) {
+                        if vm.useGPS, locationManager.lastLocation != nil {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.green)
+                        } else {
+                            Image(systemName: "location.fill")
+                                .foregroundStyle(Color.accentColor)
+                        }
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Share My Location")
+                                .font(.headline)
+                                .foregroundStyle(.primary)
+                            if vm.useGPS, let place = locationManager.placeName {
+                                Text(place)
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
                             }
-
-                        if !vm.zipCode.isEmpty && !isZipValid {
-                            Text("Enter a valid 5-digit ZIP code")
-                                .font(.caption)
-                                .foregroundStyle(.red)
                         }
+                        Spacer()
                     }
-                } else {
-                    VStack(alignment: .leading, spacing: 12) {
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text("Neighborhood")
-                                .font(.subheadline.weight(.medium))
-                            TextField("e.g. Wicker Park", text: $vm.neighborhood)
-                                .textFieldStyle(.roundedBorder)
-                                .autocorrectionDisabled()
-                        }
+                    .padding()
+                    .background(Color(.secondarySystemBackground))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(vm.useGPS ? Color.accentColor : Color.clear, lineWidth: 2)
+                    )
+                }
+                .buttonStyle(.plain)
 
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text("City")
-                                .font(.subheadline.weight(.medium))
-                            TextField("e.g. Chicago", text: $vm.city)
-                                .textFieldStyle(.roundedBorder)
-                                .autocorrectionDisabled()
+                if let error = locationManager.error {
+                    Text(error)
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                }
+
+                // "or" divider
+                HStack {
+                    Rectangle().frame(height: 1).foregroundStyle(Color.secondary.opacity(0.3))
+                    Text("or")
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 8)
+                    Rectangle().frame(height: 1).foregroundStyle(Color.secondary.opacity(0.3))
+                }
+
+                // Option 2 — Manual text field
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Add Location")
+                        .font(.headline)
+                    TextField("ZIP code, city, or neighborhood", text: $vm.locationText)
+                        .textFieldStyle(.roundedBorder)
+                        .autocorrectionDisabled()
+                        .onChange(of: vm.locationText) { _, newValue in
+                            if !newValue.isEmpty {
+                                vm.useGPS = false
+                            }
                         }
-                    }
                 }
 
                 continueButton
             }
             .padding(.horizontal, 24)
             .padding(.vertical, 16)
+        }
+        .onChange(of: locationManager.lastLocation?.latitude) { _, _ in
+            if let coord = locationManager.lastLocation {
+                vm.useGPS = true
+                vm.gpsLatitude = coord.latitude
+                vm.gpsLongitude = coord.longitude
+                vm.locationText = ""
+            }
         }
     }
 

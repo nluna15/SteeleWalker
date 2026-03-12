@@ -54,6 +54,7 @@
 		F6BBFCDEB8A16305E187FD2F /* Step3LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D85B85ACA2B1DDDF58FEDF /* Step3LocationView.swift */; };
 		F9B82B6D11DF7401A18F9E17 /* WalkingScheduleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0E392C2562473EA026C1E3 /* WalkingScheduleService.swift */; };
 		FA199F5F5E503A9C33869468 /* WalkLogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE36800BFF3F1FFD355F611 /* WalkLogService.swift */; };
+		3A1B7C4E8D9F2A0B5E6C3D71 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2D4F9A1B8C3E5D0A6F9B42 /* LocationManager.swift */; };
 		FDEAB3F80BCDD66541C3819F /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5724537BE21CFDEEAE533C83 /* AuthViewModel.swift */; };
 		A3C7F1E2B5D84901C6E87F34 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D291F3A4C2E75081F36DAE /* WeatherService.swift */; };
 /* End PBXBuildFile section */
@@ -87,6 +88,7 @@
 		664E978CE6C730F6578E65F1 /* ScheduledWalk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledWalk.swift; sourceTree = "<group>"; };
 		6C0FC567873FFD913D982933 /* CRUDDebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRUDDebugView.swift; sourceTree = "<group>"; };
 		703D8D37439190D13CB61902 /* BreedSearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedSearchField.swift; sourceTree = "<group>"; };
+		7E2D4F9A1B8C3E5D0A6F9B42 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		77D9F6751C81BBE3FD563CD6 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		7F79BD9FFE2D577357C5F413 /* OnboardingProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingProgressBar.swift; sourceTree = "<group>"; };
 		82598EED1F9FD1D909EFCBDF /* AddDogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDogView.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 			children = (
 				703D8D37439190D13CB61902 /* BreedSearchField.swift */,
 				C6BFA7712C509C55FAD9BE9A /* DogCountSelector.swift */,
+				7E2D4F9A1B8C3E5D0A6F9B42 /* LocationManager.swift */,
 				7F79BD9FFE2D577357C5F413 /* OnboardingProgressBar.swift */,
 			);
 			path = Components;
@@ -381,6 +384,7 @@
 				32BBC486106969FC7245E321 /* DogSensitivity.swift in Sources */,
 				45ED73734878F34ED099829C /* DogService.swift in Sources */,
 				306853D80ABE4264013C8F85 /* DogSize.swift in Sources */,
+				3A1B7C4E8D9F2A0B5E6C3D71 /* LocationManager.swift in Sources */,
 				D282D63B4ABD3CF3B1F8982C /* LocationEditView.swift in Sources */,
 				22A778A12078AE44662B08DF /* OnboardingContainerView.swift in Sources */,
 				6C1D8362083DC52BCA1F629B /* OnboardingProgressBar.swift in Sources */,
