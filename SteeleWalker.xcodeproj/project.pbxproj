@@ -57,6 +57,10 @@
 		3A1B7C4E8D9F2A0B5E6C3D71 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2D4F9A1B8C3E5D0A6F9B42 /* LocationManager.swift */; };
 		FDEAB3F80BCDD66541C3819F /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5724537BE21CFDEEAE533C83 /* AuthViewModel.swift */; };
 		A3C7F1E2B5D84901C6E87F34 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D291F3A4C2E75081F36DAE /* WeatherService.swift */; };
+		B1A2C3D4E5F60718293A4B5C /* HourlyForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B3D4E5F6071829A3B4C5D6 /* HourlyForecast.swift */; };
+		D3E4F506172839A4B5C6D7E8 /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F5061728394AB5C6D7E8F9 /* WeatherViewModel.swift */; };
+		F506172839A4B5C6D7E8F90A /* CurrentWeatherCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0617283940B5C6D7E8F90A1B /* CurrentWeatherCard.swift */; };
+		172839A4B5C6D7E8F90A1B2C /* HourlyForecastRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2839A4B5C6D7E8F90A1B2C3D /* HourlyForecastRow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,6 +113,10 @@
 		D96538B09D06C1C599A7EAF3 /* ScheduleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleType.swift; sourceTree = "<group>"; };
 		EB0B6F8E700568DE54F157B7 /* Step0WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step0WelcomeView.swift; sourceTree = "<group>"; };
 		FE0E392C2562473EA026C1E3 /* WalkingScheduleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkingScheduleService.swift; sourceTree = "<group>"; };
+		C2B3D4E5F6071829A3B4C5D6 /* HourlyForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyForecast.swift; sourceTree = "<group>"; };
+		E4F5061728394AB5C6D7E8F9 /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
+		0617283940B5C6D7E8F90A1B /* CurrentWeatherCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherCard.swift; sourceTree = "<group>"; };
+		2839A4B5C6D7E8F90A1B2C3D /* HourlyForecastRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyForecastRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +145,8 @@
 		0BB47A1B2F3C80E55D7A3C27 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0617283940B5C6D7E8F90A1B /* CurrentWeatherCard.swift */,
+				2839A4B5C6D7E8F90A1B2C3D /* HourlyForecastRow.swift */,
 				24123098EAC7A627D965EEFD /* WalkingPreferencesView.swift */,
 				77D9F6751C81BBE3FD563CD6 /* WelcomeView.swift */,
 			);
@@ -195,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				C312218AC2D5D424C4317C3A /* WalkingPreferencesViewModel.swift */,
+				E4F5061728394AB5C6D7E8F9 /* WeatherViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -262,6 +273,7 @@
 			children = (
 				0F3AD94294FE6F03F86C8264 /* Breed.swift */,
 				25D48835BD25A6C1134D6631 /* Dog.swift */,
+				C2B3D4E5F6071829A3B4C5D6 /* HourlyForecast.swift */,
 				664E978CE6C730F6578E65F1 /* ScheduledWalk.swift */,
 				1C6C9F7084D398676FC6B33B /* User.swift */,
 				0960F7E13B1BC4D95EE9201A /* WalkingSchedule.swift */,
@@ -411,6 +423,10 @@
 				B3F1CE4541CCD733DF02B660 /* WalkingSchedule.swift in Sources */,
 				F9B82B6D11DF7401A18F9E17 /* WalkingScheduleService.swift in Sources */,
 				A07C495504A17892FFBA5E28 /* WeatherSnapshot.swift in Sources */,
+				B1A2C3D4E5F60718293A4B5C /* HourlyForecast.swift in Sources */,
+				D3E4F506172839A4B5C6D7E8 /* WeatherViewModel.swift in Sources */,
+				F506172839A4B5C6D7E8F90A /* CurrentWeatherCard.swift in Sources */,
+				172839A4B5C6D7E8F90A1B2C /* HourlyForecastRow.swift in Sources */,
 				07806ACEA0EF2B68FD157CDE /* WelcomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

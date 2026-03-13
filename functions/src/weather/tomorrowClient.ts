@@ -8,6 +8,7 @@ const REQUESTED_FIELDS = [
   "temperatureApparent",
   "humidity",
   "windSpeed",
+  "windDirection",
   "precipitationProbability",
   "precipitationType",
   "weatherCode",
@@ -108,6 +109,7 @@ interface TomorrowInterval {
     temperatureApparent?: number;
     humidity?: number;
     windSpeed?: number;
+    windDirection?: number;
     precipitationProbability?: number;
     precipitationType?: number;
     weatherCode?: number;
@@ -157,6 +159,7 @@ function intervalToEntry(
     condition_text: mapConditionText(v.weatherCode ?? 0),
     uv_index: Math.round(v.uvIndex ?? 0),
     aqi: v.epaIndex !== undefined ? Math.round(v.epaIndex) : null,
+    wind_direction_deg: Math.round(v.windDirection ?? 0),
     captured_at: capturedAt,
   };
 

@@ -24,6 +24,7 @@ struct WeatherService {
         if location.type == .gps,
            let lat = location.latitude,
            let lon = location.longitude {
+            debugLog("resolveCoordinates - using GPS coords (\(lat), \(lon))")
             return (lat, lon)
         }
 
@@ -33,9 +34,11 @@ struct WeatherService {
         } else if let city = location.city, !city.isEmpty {
             query = city
         } else {
+            debugLog("resolveCoordinates - no GPS, zip, or city")
             throw WeatherError.unresolvableLocation
         }
 
+        debugLog("resolveCoordinates - geocoding \"\(query)\"")
         guard let request = MKGeocodingRequest(addressString: query) else {
             throw WeatherError.geocodingFailed(query)
         }
@@ -43,10 +46,23 @@ struct WeatherService {
         guard let location = mapItems.first?.location else {
             throw WeatherError.geocodingFailed(query)
         }
+        debugLog("resolveCoordinates - geocoded to (\(location.coordinate.latitude), \(location.coordinate.longitude))")
         return (location.coordinate.latitude, location.coordinate.longitude)
     }
 
     static func fetchCurrentWeather(lat: Double, lon: Double) async throws -> WeatherSnapshot {
+        let envelope = try await fetchForecast(lat: lat, lon: lon)
+        return envelope.current
+    }
+
+    /// Fetch the full forecast envelope (current + hourly + timezone).
+    static func fetchForecast(for location: Location) async throws -> ForecastEnvelope {
+        let (lat, lon) = try await resolveCoordinates(for: location)
+        return try await fetchForecast(lat: lat, lon: lon)
+    }
+
+    /// Fetch the full forecast envelope by coordinates.
+    static func fetchForecast(lat: Double, lon: Double) async throws -> ForecastEnvelope {
         guard let user = Auth.auth().currentUser else {
             throw WeatherError.notAuthenticated
         }
@@ -59,21 +75,67 @@ struct WeatherService {
         ]
 
         var request = URLRequest(url: components.url!)
+        request.timeoutInterval = 15
         request.setValue("Bearer \(idToken)", forHTTPHeaderField: "Authorization")
 
+        debugLog("HTTP GET \(components.url?.absoluteString ?? "nil")")
         let (data, response) = try await URLSession.shared.data(for: request)
-        guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+        let http = response as? HTTPURLResponse
+        debugLog("HTTP \(http?.statusCode ?? -1), body \(data.count) bytes")
+
+        guard let http, http.statusCode == 200 else {
             let body = String(data: data, encoding: .utf8) ?? "(empty)"
+            debugLog("HTTP error body: \(body)")
             throw WeatherError.httpError(body)
         }
 
-        // Response shape: { current: { ... }, hourly: [...], timezone: "..." }
-        // Decode only the `current` field into WeatherSnapshot
+        #if DEBUG
+        if let raw = String(data: data, encoding: .utf8) {
+            debugLog("raw JSON (first 500 chars): \(String(raw.prefix(500)))")
+        }
+        #endif
+
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        let envelope = try decoder.decode(ForecastEnvelope.self, from: data)
-        return envelope.current
+        decoder.dateDecodingStrategy = .custom { decoder in
+            let container = try decoder.singleValueContainer()
+            let string = try container.decode(String.self)
+
+            let fractional = ISO8601DateFormatter()
+            fractional.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+            if let date = fractional.date(from: string) { return date }
+
+            let plain = ISO8601DateFormatter()
+            plain.formatOptions = [.withInternetDateTime]
+            if let date = plain.date(from: string) { return date }
+
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Cannot parse date: \(string)"
+            )
+        }
+
+        do {
+            let envelope = try decoder.decode(ForecastEnvelope.self, from: data)
+            debugLog("decode OK - current temp: \(envelope.current.temperatureF), hourly: \(envelope.hourly.count)")
+            return envelope
+        } catch {
+            debugLog("decode FAILED: \(error)")
+            throw error
+        }
     }
+
+    private static func debugLog(_ message: String) {
+        #if DEBUG
+        print("[Weather] \(message)")
+        #endif
+    }
+}
+
+/// Full response shape from the Cloud Function.
+struct ForecastEnvelope: Decodable {
+    let current: WeatherSnapshot
+    let hourly: [HourlyForecast]
+    let timezone: String
 }
 
 enum WeatherError: LocalizedError {
@@ -90,8 +152,4 @@ enum WeatherError: LocalizedError {
         case .geocodingFailed(let q):   return "Could not geocode \"\(q)\""
         }
     }
-}
-
-private struct ForecastEnvelope: Decodable {
-    let current: WeatherSnapshot
 }

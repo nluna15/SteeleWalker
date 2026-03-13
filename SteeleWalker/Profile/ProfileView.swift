@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var auth: AuthViewModel
+    @AppStorage("useMetricUnits") private var useMetric = false
     @State private var dogs: [Dog] = []
     @State private var isLoadingDogs: Bool = false
     @State private var loadError: String?
@@ -42,6 +43,11 @@ struct ProfileView: View {
                 NavigationLink("Edit Location") {
                     LocationEditView(userId: userId)
                 }
+            }
+
+            // MARK: Preferences
+            Section("Preferences") {
+                Toggle("Use Metric Units", isOn: $useMetric)
             }
 
             // MARK: Account

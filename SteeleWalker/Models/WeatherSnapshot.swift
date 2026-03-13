@@ -45,20 +45,52 @@ struct WeatherSnapshot: Codable {
     /// Air Quality Index (EPA scale, 0–500+), or nil if unavailable.
     let aqi: Int?
 
+    /// Wind direction in degrees (0–360). Defaults to 0 when the backend
+    /// hasn't been redeployed with this field yet.
+    let windDirectionDeg: Int
+
     /// Timestamp when Tomorrow.io was queried.
     let capturedAt: Date
 
     enum CodingKeys: String, CodingKey {
-        case temperatureF    = "temperature_f"
-        case feelsLikeF      = "feels_like_f"
+        case temperatureF      = "temperature_f"
+        case feelsLikeF        = "feels_like_f"
         case humidity
-        case windSpeedMph    = "wind_speed_mph"
+        case windSpeedMph      = "wind_speed_mph"
         case precipProbability = "precip_probability"
-        case precipType      = "precip_type"
-        case weatherCode     = "weather_code"
-        case conditionText   = "condition_text"
-        case uvIndex         = "uv_index"
-        case aqi             = "aqi"
-        case capturedAt      = "captured_at"
+        case precipType        = "precip_type"
+        case weatherCode       = "weather_code"
+        case conditionText     = "condition_text"
+        case uvIndex           = "uv_index"
+        case aqi               = "aqi"
+        case windDirectionDeg  = "wind_direction_deg"
+        case capturedAt        = "captured_at"
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        temperatureF      = try c.decode(Double.self, forKey: .temperatureF)
+        feelsLikeF        = try c.decode(Double.self, forKey: .feelsLikeF)
+        humidity          = try c.decode(Int.self, forKey: .humidity)
+        windSpeedMph      = try c.decode(Double.self, forKey: .windSpeedMph)
+        precipProbability = try c.decode(Int.self, forKey: .precipProbability)
+        precipType        = try c.decodeIfPresent(String.self, forKey: .precipType)
+        weatherCode       = try c.decode(Int.self, forKey: .weatherCode)
+        conditionText     = try c.decode(String.self, forKey: .conditionText)
+        uvIndex           = try c.decode(Int.self, forKey: .uvIndex)
+        aqi               = try c.decodeIfPresent(Int.self, forKey: .aqi)
+        windDirectionDeg  = try c.decodeIfPresent(Int.self, forKey: .windDirectionDeg) ?? 0
+        capturedAt        = try c.decode(Date.self, forKey: .capturedAt)
+    }
+
+    /// 8-point cardinal direction derived from `windDirectionDeg`.
+    var windCardinal: String {
+        Self.cardinal(from: windDirectionDeg)
+    }
+
+    static func cardinal(from degrees: Int) -> String {
+        let directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+        let index = Int((Double(degrees) + 22.5).truncatingRemainder(dividingBy: 360) / 45)
+        return directions[index]
     }
 }
