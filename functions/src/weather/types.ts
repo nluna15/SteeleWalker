@@ -12,11 +12,11 @@ export interface WeatherEntry {
   weather_code: number;
   condition_text: string;
   uv_index: number;
-  /** EPA AQI (0–500+). null when Tomorrow.io returns no data for the location. */
+  /** EPA AQI (0–500+). null for hourly entries or when unavailable. */
   aqi: number | null;
   /** Wind direction in degrees (0–360). */
   wind_direction_deg: number;
-  /** ISO 8601 UTC timestamp when Tomorrow.io data was captured. */
+  /** ISO 8601 UTC timestamp when weather data was captured. */
   captured_at: string;
 }
 

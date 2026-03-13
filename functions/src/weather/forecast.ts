@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { verifyToken } from "../auth";
-import { fetchForecast } from "./tomorrowClient";
+import { fetchForecast } from "./weatherApiClient";
 
 function errorResponse(
   res: Response,

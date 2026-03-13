@@ -8,7 +8,7 @@ initializeApp();
 /**
  * GET /weatherForecastHourly
  *
- * Proxies current conditions + 48-hour hourly forecast from Tomorrow.io.
+ * Proxies current conditions + 48-hour hourly forecast from WeatherAPI.
  * Requires Firebase ID token in Authorization: Bearer header.
  *
  * Query params: lat, lon, units (optional, default "imperial")
@@ -16,6 +16,6 @@ initializeApp();
  * Emulator URL: http://localhost:5001/<project>/us-central1/weatherForecastHourly
  */
 export const weatherForecastHourly = onRequest(
-  { cors: false, secrets: ["TOMORROW_IO_API_KEY"] },
+  { cors: false, secrets: ["WEATHER_API_KEY"] },
   forecastHandler
 );
