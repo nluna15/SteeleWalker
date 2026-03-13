@@ -11,7 +11,7 @@ struct Step2WalkRoutineView: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Walk Routine")
                         .font(.title2.bold())
-                    Text("Set up your typical weekday walking schedule.")
+                    Text("Set up your typical walking schedule.")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }

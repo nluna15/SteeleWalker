@@ -10,7 +10,6 @@
 		07806ACEA0EF2B68FD157CDE /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D9F6751C81BBE3FD563CD6 /* WelcomeView.swift */; };
 		081E25CC92A9D5B14A2176A2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE55DE936539C8E01FDE7FA2 /* ContentView.swift */; };
 		162E842E4BEACBC5977D772D /* AddDogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82598EED1F9FD1D909EFCBDF /* AddDogView.swift */; };
-		1FB1426C6CFCFCE0AB32A5FF /* Step4SensitivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E831B70BC58D2DF1C470B4A /* Step4SensitivitiesView.swift */; };
 		22A778A12078AE44662B08DF /* OnboardingContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16777CACE298291973B984AF /* OnboardingContainerView.swift */; };
 		306853D80ABE4264013C8F85 /* DogSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6EC987F7F5B521B5A21EC0 /* DogSize.swift */; };
 		32BBC486106969FC7245E321 /* DogSensitivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410F165054CF1F10D1468EFF /* DogSensitivity.swift */; };
@@ -47,7 +46,6 @@
 		D93EE62F879C20B1E3A46545 /* ScheduledWalk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664E978CE6C730F6578E65F1 /* ScheduledWalk.swift */; };
 		E2DD40EC6D6F95E8B9EB3E10 /* DogEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1D0F94C28E0062386A2DA1 /* DogEditViewModel.swift */; };
 		E9013DC5181807340CA4FB5E /* ScheduledWalkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BED01BF314293A53DA18F0 /* ScheduledWalkService.swift */; };
-		F0E8049F0F091C183E321132 /* DogAgeRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD66192885F849A95A48D53 /* DogAgeRange.swift */; };
 		F155F54637B9D6311B95B3BF /* Step1DogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB535BD615A2AE7D320737F /* Step1DogsView.swift */; };
 		F49CEA6FBD688EABF356EFDD /* DogMobility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430AE28E94C3888B72535073 /* DogMobility.swift */; };
 		F56476444413182B9D873B16 /* Step1DogFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B515687BF129980F7047384A /* Step1DogFormView.swift */; };
@@ -78,7 +76,6 @@
 		2D6EC987F7F5B521B5A21EC0 /* DogSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogSize.swift; sourceTree = "<group>"; };
 		2EB535BD615A2AE7D320737F /* Step1DogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step1DogsView.swift; sourceTree = "<group>"; };
 		3A405F675662BE99640B4CEA /* SteeleWalker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SteeleWalker.entitlements; sourceTree = "<group>"; };
-		3CD66192885F849A95A48D53 /* DogAgeRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogAgeRange.swift; sourceTree = "<group>"; };
 		3FC3E7F05244CAB76171BA2F /* DogHealthCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogHealthCondition.swift; sourceTree = "<group>"; };
 		410F165054CF1F10D1468EFF /* DogSensitivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogSensitivity.swift; sourceTree = "<group>"; };
 		430AE28E94C3888B72535073 /* DogMobility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogMobility.swift; sourceTree = "<group>"; };
@@ -99,7 +96,6 @@
 		82C76368D27BA644FEF1E7B3 /* DogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogService.swift; sourceTree = "<group>"; };
 		83E34D2B6BA562DE0007A718 /* LocationEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditView.swift; sourceTree = "<group>"; };
 		8C49DEFC060D498361F2FA96 /* ScheduledWalkStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledWalkStatus.swift; sourceTree = "<group>"; };
-		8E831B70BC58D2DF1C470B4A /* Step4SensitivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step4SensitivitiesView.swift; sourceTree = "<group>"; };
 		9C1D0F94C28E0062386A2DA1 /* DogEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogEditViewModel.swift; sourceTree = "<group>"; };
 		A1BED01BF314293A53DA18F0 /* ScheduledWalkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledWalkService.swift; sourceTree = "<group>"; };
 		AAC80374B31AF4BD37EA80F6 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -169,7 +165,6 @@
 				2EB535BD615A2AE7D320737F /* Step1DogsView.swift */,
 				23DC58435CE4397A76151229 /* Step2WalkRoutineView.swift */,
 				D5D85B85ACA2B1DDDF58FEDF /* Step3LocationView.swift */,
-				8E831B70BC58D2DF1C470B4A /* Step4SensitivitiesView.swift */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
@@ -246,7 +241,6 @@
 		8A631A2E0FFAC3AC1CCB2D6E /* Enums */ = {
 			isa = PBXGroup;
 			children = (
-				3CD66192885F849A95A48D53 /* DogAgeRange.swift */,
 				3FC3E7F05244CAB76171BA2F /* DogHealthCondition.swift */,
 				430AE28E94C3888B72535073 /* DogMobility.swift */,
 				410F165054CF1F10D1468EFF /* DogSensitivity.swift */,
@@ -387,7 +381,6 @@
 				A3948271261026116981C1DC /* CRUDDebugView.swift in Sources */,
 				081E25CC92A9D5B14A2176A2 /* ContentView.swift in Sources */,
 				7A35111EF487198C58F2924A /* Dog.swift in Sources */,
-				F0E8049F0F091C183E321132 /* DogAgeRange.swift in Sources */,
 				D491DE56885A8DFA72E84B9A /* DogCountSelector.swift in Sources */,
 				74E3CBA0F9351E1856B9F638 /* DogEditView.swift in Sources */,
 				E2DD40EC6D6F95E8B9EB3E10 /* DogEditViewModel.swift in Sources */,
@@ -412,7 +405,6 @@
 				F155F54637B9D6311B95B3BF /* Step1DogsView.swift in Sources */,
 				920B2D41A2A798423E1869BD /* Step2WalkRoutineView.swift in Sources */,
 				F6BBFCDEB8A16305E187FD2F /* Step3LocationView.swift in Sources */,
-				1FB1426C6CFCFCE0AB32A5FF /* Step4SensitivitiesView.swift in Sources */,
 				D8BE0F6A5C82A83386FF3928 /* User.swift in Sources */,
 				91AF6AC8CD03A023538A5AC1 /* UserService.swift in Sources */,
 				482B591B142762FF5787FEA1 /* WalkLog.swift in Sources */,

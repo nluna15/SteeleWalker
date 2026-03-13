@@ -8,12 +8,16 @@ class DogEditViewModel: ObservableObject {
     @Published var breedIds: [String]
     @Published var breedDisplayNames: [String]
     @Published var size: DogSize
-    @Published var ageRange: DogAgeRange
+    @Published var ageText: String
+    @Published var isUnderOneYear: Bool
     @Published var mobilities: Set<DogMobility>
     @Published var mobilityNote: String
+    @Published var sensitivities: Set<DogSensitivity>
 
     @Published var isSaving: Bool = false
     @Published var didSave: Bool = false
+    @Published var isDeleting: Bool = false
+    @Published var didDelete: Bool = false
     @Published var showError: Bool = false
     @Published var errorMessage: String?
 
@@ -23,18 +27,20 @@ class DogEditViewModel: ObservableObject {
         self.breedIds = dog.breedIds
         self.breedDisplayNames = dog.breedIds   // will be resolved via BreedSeed lookup
         self.size = dog.size
-        // Derive age range from birth year if available
+        // Derive age fields from birth year if available
         if let birthYear = dog.birthYear {
             let currentYear = Calendar.current.component(.year, from: Date())
             let age = currentYear - birthYear
-            switch age {
-            case ..<1:  self.ageRange = .puppy
-            case 1..<3: self.ageRange = .oneToThree
-            case 3..<7: self.ageRange = .threeToSeven
-            default:    self.ageRange = .senior
+            if age < 1 {
+                self.ageText = ""
+                self.isUnderOneYear = true
+            } else {
+                self.ageText = "\(age)"
+                self.isUnderOneYear = false
             }
         } else {
-            self.ageRange = .oneToThree
+            self.ageText = ""
+            self.isUnderOneYear = false
         }
         // Derive mobilities from health conditions (can match multiple)
         let conditions = Set(dog.healthConditions)
@@ -42,8 +48,11 @@ class DogEditViewModel: ObservableObject {
         if conditions.contains("recent_surgery") { derived.insert(.recovering) }
         if conditions.contains("senior_mobility") || conditions.contains("low_energy") { derived.insert(.seniorSlowerPace) }
         if conditions.contains("arthritis") || conditions.contains("hip_issues") { derived.insert(.jointMobility) }
+        if conditions.contains("heart_condition") { derived.insert(.heartCondition) }
+        if conditions.contains("breathing_difficulty") { derived.insert(.breathingIssues) }
         self.mobilities = derived.isEmpty ? [.noRestrictions] : derived
         self.mobilityNote = dog.healthNotes ?? ""
+        self.sensitivities = Set(dog.sensitivities.compactMap { DogSensitivity(rawValue: $0) })
 
         // Resolve display names from seed for each stored breed ID
         self.breedDisplayNames = dog.breedIds.compactMap { id in
@@ -58,7 +67,8 @@ class DogEditViewModel: ObservableObject {
             "breed_ids":         breedIds,
             "size":              size.rawValue,
             "health_conditions": Array(mobilities).flatMap(\.healthConditionKeys),
-            "birth_year":        ageRange.approximateBirthYear
+            "sensitivities":     sensitivities.map(\.rawValue),
+            "birth_year":        isUnderOneYear ? Calendar.current.component(.year, from: Date()) : Calendar.current.component(.year, from: Date()) - (Int(ageText) ?? 0)
         ]
         if mobilities.contains(.other) && !mobilityNote.isEmpty {
             fields["health_notes"] = mobilityNote
@@ -74,5 +84,17 @@ class DogEditViewModel: ObservableObject {
             showError = true
         }
         isSaving = false
+    }
+
+    func delete() async {
+        isDeleting = true
+        do {
+            try await DogService.softDeleteDog(id: dog.id)
+            didDelete = true
+        } catch {
+            errorMessage = error.localizedDescription
+            showError = true
+        }
+        isDeleting = false
     }
 }

@@ -10,10 +10,25 @@ struct BreedSearchField: View {
 
     private var matches: [BreedSeed.Entry] {
         guard !query.isEmpty else { return [] }
+        let lowerQuery = query.lowercased()
         return BreedSeed.all
             .filter { entry in
                 entry.name.localizedCaseInsensitiveContains(query)
                     && !breedIds.contains(entry.id)
+            }
+            .sorted { a, b in
+                let aLower = a.name.lowercased()
+                let bLower = b.name.lowercased()
+                let aStarts = aLower.hasPrefix(lowerQuery)
+                let bStarts = bLower.hasPrefix(lowerQuery)
+                // 1) Prefix matches first
+                if aStarts != bStarts { return aStarts }
+                // 2) Among non-prefix, word-boundary matches before mid-word
+                let aWordStart = aLower.contains(" \(lowerQuery)")
+                let bWordStart = bLower.contains(" \(lowerQuery)")
+                if aWordStart != bWordStart { return aWordStart }
+                // 3) Alphabetical tie-break
+                return aLower < bLower
             }
             .prefix(8)
             .map { $0 }

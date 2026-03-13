@@ -59,6 +59,12 @@ class WalkingPreferencesViewModel: ObservableObject {
                 walksPerDay: walksPerDay,
                 slots: slots
             )
+            try await WalkingScheduleService.setSchedule(
+                userId: userId,
+                scheduleType: ScheduleType.weekend.rawValue,
+                walksPerDay: walksPerDay,
+                slots: slots
+            )
             didSave = true
         } catch {
             errorMessage = error.localizedDescription

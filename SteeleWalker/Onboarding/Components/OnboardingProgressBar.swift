@@ -2,7 +2,7 @@ import SwiftUI
 
 struct OnboardingProgressBar: View {
     let currentStep: Int
-    let totalSteps: Int = 4   // steps 1-4 (step 0 = welcome, not counted)
+    let totalSteps: Int = 3   // steps 1-3 (step 0 = welcome, not counted)
 
     private var progress: CGFloat {
         guard totalSteps > 0 else { return 0 }

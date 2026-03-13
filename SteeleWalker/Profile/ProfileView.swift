@@ -33,7 +33,7 @@ struct ProfileView: View {
 
             // MARK: Walk Preferences
             Section("Walk Preferences") {
-                NavigationLink("Weekday Schedule") {
+                NavigationLink("Edit Schedule") {
                     WalkingPreferencesView(userId: userId)
                 }
             }

@@ -81,7 +81,16 @@ struct Step3LocationView: View {
                         }
                 }
 
-                continueButton
+                submitButton
+
+                #if DEBUG
+                Button("Skip Setup (Debug)") {
+                    vm.skipForDebug()
+                }
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .padding(.top, 4)
+                #endif
             }
             .padding(.horizontal, 24)
             .padding(.vertical, 16)
@@ -96,20 +105,32 @@ struct Step3LocationView: View {
         }
     }
 
-    private var continueButton: some View {
+    private var submitButton: some View {
         Button {
-            vm.currentStep = 4
+            guard !vm.isSubmitting else { return }
+            Task { await vm.submit() }
         } label: {
-            Text("Continue")
-                .font(.headline)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(vm.isStep3Valid ? Color.accentColor : Color.secondary.opacity(0.3))
-                .foregroundStyle(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+            Group {
+                if vm.isSubmitting {
+                    HStack {
+                        ProgressView()
+                            .tint(.white)
+                        Text("Saving…")
+                            .font(.headline)
+                    }
+                } else {
+                    Text("Finish Setup")
+                        .font(.headline)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(vm.isStep3Valid ? Color.accentColor : Color.secondary.opacity(0.3))
+            .foregroundStyle(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
         }
         .buttonStyle(.plain)
-        .disabled(!vm.isStep3Valid)
+        .disabled(!vm.isStep3Valid || vm.isSubmitting)
         .padding(.top, 8)
     }
 }

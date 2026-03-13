@@ -32,12 +32,6 @@ struct OnboardingContainerView: View {
                             insertion: .move(edge: .trailing),
                             removal: .move(edge: .leading)
                         ))
-                case 4:
-                    Step4SensitivitiesView(vm: vm)
-                        .transition(.asymmetric(
-                            insertion: .move(edge: .trailing),
-                            removal: .move(edge: .leading)
-                        ))
                 default:
                     // currentStep is out of range — reset defensively rather than show blank
                     Color.clear.onAppear { vm.currentStep = 0 }

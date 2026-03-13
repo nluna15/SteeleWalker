@@ -62,8 +62,8 @@ struct AddDogView: View {
                 breedIds: draft.breedIds,
                 size: draft.size.rawValue,
                 healthConditions: draft.mobilities.flatMap(\.healthConditionKeys),
-                sensitivities: [],
-                birthYear: draft.ageRange.approximateBirthYear,
+                sensitivities: draft.sensitivities.map(\.rawValue),
+                birthYear: draft.computedBirthYear ?? Calendar.current.component(.year, from: Date()),
                 healthNotes: draft.mobilities.contains(.other) && !draft.mobilityNote.isEmpty ? draft.mobilityNote : nil
             )
             onAdded()

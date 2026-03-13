@@ -30,6 +30,12 @@ struct HourlyForecastRow: View {
             Text("UV \(forecast.uvIndex)")
                 .font(.caption)
                 .foregroundStyle(.secondary)
+
+            if let aqi = forecast.aqi {
+                Text("AQI \(aqi)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
         }
     }
 

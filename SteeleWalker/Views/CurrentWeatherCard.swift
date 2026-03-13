@@ -28,6 +28,12 @@ struct CurrentWeatherCard: View {
                         systemImage: "thermometer.medium"
                     )
                 }
+                if let aqi = snapshot.aqi {
+                    GridRow {
+                        Label("AQI \(aqi)", systemImage: "aqi.medium")
+                            .gridCellColumns(2)
+                    }
+                }
             }
             .font(.subheadline)
         }

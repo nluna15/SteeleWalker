@@ -7,6 +7,8 @@ enum DogMobility: String, CaseIterable {
     case seniorSlowerPace = "senior_slower_pace"
     case jointMobility   = "joint_mobility"
     case recovering      = "recovering"
+    case heartCondition  = "heart_condition"
+    case breathingIssues = "breathing_issues"
     case other           = "other"
 
     var displayName: String {
@@ -15,6 +17,8 @@ enum DogMobility: String, CaseIterable {
         case .seniorSlowerPace: return "Senior — slower pace"
         case .jointMobility:    return "Joint / mobility issues"
         case .recovering:       return "Recovering from surgery"
+        case .heartCondition:   return "Heart condition"
+        case .breathingIssues:  return "Breathing difficulty"
         case .other:            return "Other"
         }
     }
@@ -27,6 +31,8 @@ enum DogMobility: String, CaseIterable {
         case .seniorSlowerPace: return ["senior_mobility", "low_energy"]
         case .jointMobility:    return ["arthritis", "hip_issues"]
         case .recovering:       return ["recent_surgery"]
+        case .heartCondition:   return ["heart_condition"]
+        case .breathingIssues:  return ["breathing_difficulty"]
         case .other:            return []
         }
     }

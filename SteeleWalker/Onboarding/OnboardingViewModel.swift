@@ -10,9 +10,18 @@ struct DogDraft: Identifiable {
     var breedIds: [String] = []
     var breedDisplayNames: [String] = []
     var size: DogSize = .medium
-    var ageRange: DogAgeRange = .oneToThree
+    var ageText: String = ""
+    var isUnderOneYear: Bool = false
     var mobilities: Set<DogMobility> = [.noRestrictions]
     var mobilityNote = ""
+    var sensitivities: Set<DogSensitivity> = []
+
+    var computedBirthYear: Int? {
+        let currentYear = Calendar.current.component(.year, from: Date())
+        if isUnderOneYear { return currentYear }
+        guard let age = Int(ageText), age > 0 else { return nil }
+        return currentYear - age
+    }
 }
 
 enum WalkTime: String, CaseIterable, Identifiable {
@@ -77,9 +86,6 @@ class OnboardingViewModel: ObservableObject {
     @Published var gpsLatitude: Double?
     @Published var gpsLongitude: Double?
 
-    // MARK: Step 4 — Sensitivities
-    @Published var selectedSensitivities: Set<DogSensitivity> = []
-
     // MARK: Async state
     @Published var isSubmitting: Bool = false
     @Published var errorMessage: String? = nil
@@ -109,7 +115,7 @@ class OnboardingViewModel: ObservableObject {
     // MARK: - Validation
 
     var isStep1Valid: Bool {
-        dogs.allSatisfy { !$0.name.trimmingCharacters(in: .whitespaces).isEmpty && !$0.breedIds.isEmpty }
+        dogs.allSatisfy { !$0.name.trimmingCharacters(in: .whitespaces).isEmpty && !$0.breedIds.isEmpty && ($0.isUnderOneYear || (Int($0.ageText) ?? 0) > 0) }
     }
 
     var isStep2Valid: Bool {
@@ -144,7 +150,6 @@ class OnboardingViewModel: ObservableObject {
             let batch = db.batch()
 
             // 1. Queue dog writes — pre-generate refs so IDs are stable across retries
-            let sensitivitiesRaw = selectedSensitivities.map(\.rawValue)
             for dog in dogs {
                 let ref = db.collection("dogs").document()
                 var data: [String: Any] = [
@@ -154,9 +159,9 @@ class OnboardingViewModel: ObservableObject {
                     "breed_ids":         dog.breedIds,
                     "size":              dog.size.rawValue,
                     "health_conditions": Array(dog.mobilities).flatMap(\.healthConditionKeys),
-                    "sensitivities":     sensitivitiesRaw,
+                    "sensitivities":     dog.sensitivities.map(\.rawValue),
                     "is_active":         true,
-                    "birth_year":        dog.ageRange.approximateBirthYear,
+                    "birth_year":        dog.computedBirthYear ?? Calendar.current.component(.year, from: Date()),
                     "created_at":        FieldValue.serverTimestamp(),
                     "updated_at":        FieldValue.serverTimestamp()
                 ]
@@ -185,6 +190,18 @@ class OnboardingViewModel: ObservableObject {
                 "slots":          slots,
                 "updated_at":     FieldValue.serverTimestamp()
             ], forDocument: scheduleRef, merge: true)
+
+            // 2b. Queue weekend schedule (mirrors weekday for all-week coverage)
+            let weekendDocId = "\(userId)_\(ScheduleType.weekend.rawValue)"
+            let weekendRef = db.collection("walking_schedules").document(weekendDocId)
+            batch.setData([
+                "id":             weekendDocId,
+                "user_id":        userId,
+                "schedule_type":  ScheduleType.weekend.rawValue,
+                "walks_per_day":  walksPerDay,
+                "slots":          slots,
+                "updated_at":     FieldValue.serverTimestamp()
+            ], forDocument: weekendRef, merge: true)
 
             // 3. Queue location write
             var locationDict: [String: Any]
