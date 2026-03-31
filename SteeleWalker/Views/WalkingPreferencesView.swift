@@ -76,10 +76,15 @@ struct WalkingPreferencesView: View {
                                         vm.selectedTimes.insert(time)
                                     }
                                 } label: {
-                                    HStack {
-                                        Image(systemName: time.systemImage)
-                                        Text(time.displayName)
-                                            .font(.subheadline.weight(.medium))
+                                    VStack(spacing: 4) {
+                                        HStack {
+                                            Image(systemName: time.systemImage)
+                                            Text(time.displayName)
+                                                .font(.subheadline.weight(.medium))
+                                        }
+                                        Text(time.hourRangeLabel)
+                                            .font(.caption2)
+                                            .opacity(0.8)
                                     }
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 14)

@@ -52,6 +52,23 @@ struct HourlyForecast: Codable, Identifiable {
         case localTimestamp    = "local_timestamp"
     }
 
+    func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(temperatureF, forKey: .temperatureF)
+        try c.encode(feelsLikeF, forKey: .feelsLikeF)
+        try c.encode(humidity, forKey: .humidity)
+        try c.encode(windSpeedMph, forKey: .windSpeedMph)
+        try c.encode(precipProbability, forKey: .precipProbability)
+        try c.encodeIfPresent(precipType, forKey: .precipType)
+        try c.encode(weatherCode, forKey: .weatherCode)
+        try c.encode(conditionText, forKey: .conditionText)
+        try c.encode(uvIndex, forKey: .uvIndex)
+        try c.encodeIfPresent(aqi, forKey: .aqi)
+        try c.encode(windDirectionDeg, forKey: .windDirectionDeg)
+        try c.encode(capturedAt, forKey: .capturedAt)
+        try c.encode(localTimestamp, forKey: .localTimestamp)
+    }
+
     /// Parses the ISO 8601 offset timestamp into a `Date`.
     var date: Date? {
         let formatter = ISO8601DateFormatter()

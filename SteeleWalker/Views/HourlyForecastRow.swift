@@ -3,9 +3,17 @@ import SwiftUI
 struct HourlyForecastRow: View {
     let forecast: HourlyForecast
     let metric: Bool
+    var recommendationLevel: RecommendationLevel? = nil
+    var timezone: String? = nil
 
     var body: some View {
         HStack {
+            if let level = recommendationLevel {
+                Circle()
+                    .fill(level.color)
+                    .frame(width: 8, height: 8)
+            }
+
             Text(timeLabel)
                 .font(.subheadline.monospacedDigit())
                 .frame(width: 55, alignment: .leading)
@@ -43,6 +51,9 @@ struct HourlyForecastRow: View {
         guard let date = forecast.date else { return "--" }
         let formatter = DateFormatter()
         formatter.dateFormat = "h a"
+        if let timezone, let tz = TimeZone(identifier: timezone) {
+            formatter.timeZone = tz
+        }
         return formatter.string(from: date)
     }
 }

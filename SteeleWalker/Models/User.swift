@@ -26,7 +26,7 @@ enum LocationType: String, Codable {
 /// ```
 /// Firestore document shape (manual):
 /// ```json
-/// { "type": "manual", "zip_code": "94103", "city": "San Francisco" }
+/// { "type": "manual", "zip_code": "94103", "city": "San Francisco", "state": "CA" }
 /// ```
 struct Location: Codable {
     let type: LocationType
@@ -38,6 +38,7 @@ struct Location: Codable {
     // Manual entry fields — present only when type == .manual
     let zipCode: String?
     let city:    String?
+    let state:   String?
 
     enum CodingKeys: String, CodingKey {
         case type
@@ -45,16 +46,17 @@ struct Location: Codable {
         case longitude = "long"
         case zipCode   = "zip_code"
         case city
+        case state
     }
 
     /// Convenience constructor for GPS-based location.
     static func gps(latitude: Double, longitude: Double) -> Location {
-        Location(type: .gps, latitude: latitude, longitude: longitude, zipCode: nil, city: nil)
+        Location(type: .gps, latitude: latitude, longitude: longitude, zipCode: nil, city: nil, state: nil)
     }
 
     /// Convenience constructor for manually entered location.
-    static func manual(zipCode: String, city: String) -> Location {
-        Location(type: .manual, latitude: nil, longitude: nil, zipCode: zipCode, city: city)
+    static func manual(zipCode: String? = nil, city: String? = nil, state: String? = nil) -> Location {
+        Location(type: .manual, latitude: nil, longitude: nil, zipCode: zipCode, city: city, state: state)
     }
 }
 

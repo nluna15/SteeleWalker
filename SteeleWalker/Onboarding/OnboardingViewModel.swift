@@ -32,12 +32,39 @@ enum WalkTime: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
+    var startHour: Int {
+        switch self {
+        case .morning:   return 7
+        case .midday:    return 11
+        case .afternoon: return 14
+        case .evening:   return 18
+        }
+    }
+
+    var endHour: Int {
+        switch self {
+        case .morning:   return 9
+        case .midday:    return 13
+        case .afternoon: return 17
+        case .evening:   return 20
+        }
+    }
+
     var preferredTime: String {
         switch self {
         case .morning:   return "07:00"
         case .midday:    return "12:00"
         case .afternoon: return "15:00"
         case .evening:   return "18:00"
+        }
+    }
+
+    var hourRangeLabel: String {
+        switch self {
+        case .morning:   return "7–9 AM"
+        case .midday:    return "11 AM–1 PM"
+        case .afternoon: return "2–5 PM"
+        case .evening:   return "6–8 PM"
         }
     }
 
@@ -82,7 +109,9 @@ class OnboardingViewModel: ObservableObject {
 
     // MARK: Step 3 — Location
     @Published var useGPS: Bool = false
-    @Published var locationText: String = ""
+    @Published var locationText: String = ""  // kept for ZIP code entry
+    @Published var selectedCity: String = ""
+    @Published var selectedState: String = ""
     @Published var gpsLatitude: Double?
     @Published var gpsLongitude: Double?
 
@@ -126,7 +155,10 @@ class OnboardingViewModel: ObservableObject {
         if useGPS {
             return gpsLatitude != nil && gpsLongitude != nil
         } else {
-            return !locationText.trimmingCharacters(in: .whitespaces).isEmpty
+            let hasZip = locationText.trimmingCharacters(in: .whitespaces)
+                .range(of: #"^\d{5}$"#, options: .regularExpression) != nil
+            let hasCity = !selectedCity.isEmpty && !selectedState.isEmpty
+            return hasZip || hasCity
         }
     }
 
@@ -212,8 +244,9 @@ class OnboardingViewModel: ObservableObject {
                 let trimmed = locationText.trimmingCharacters(in: .whitespaces)
                 if trimmed.range(of: #"^\d{5}$"#, options: .regularExpression) != nil {
                     locationDict["zip_code"] = trimmed
-                } else {
-                    locationDict["city"] = trimmed
+                } else if !selectedCity.isEmpty {
+                    locationDict["city"] = selectedCity
+                    locationDict["state"] = selectedState
                 }
             }
             let userRef = db.collection("users").document(userId)

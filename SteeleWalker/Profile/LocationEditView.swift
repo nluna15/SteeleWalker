@@ -5,7 +5,9 @@ import FirebaseFirestore
 
 @MainActor
 private class LocationEditViewModel: ObservableObject {
-    @Published var locationText: String = ""
+    @Published var locationText: String = ""  // ZIP code only
+    @Published var selectedCity: String = ""
+    @Published var selectedState: String = ""
     @Published var useGPS: Bool = false
 
     @Published var isLoading = false
@@ -30,8 +32,11 @@ private class LocationEditViewModel: ObservableObject {
                 } else {
                     if let zip = loc.zipCode, !zip.isEmpty {
                         currentLocationDisplay = "ZIP \(zip)"
+                        locationText = zip
                     } else if let city = loc.city, !city.isEmpty {
-                        currentLocationDisplay = city
+                        selectedCity = city
+                        selectedState = loc.state ?? ""
+                        currentLocationDisplay = selectedState.isEmpty ? city : "\(city), \(selectedState)"
                     }
                 }
             }
@@ -42,7 +47,11 @@ private class LocationEditViewModel: ObservableObject {
     }
 
     var isValid: Bool {
-        useGPS || !locationText.trimmingCharacters(in: .whitespaces).isEmpty
+        if useGPS { return true }
+        let hasZip = locationText.trimmingCharacters(in: .whitespaces)
+            .range(of: #"^\d{5}$"#, options: .regularExpression) != nil
+        let hasCity = !selectedCity.isEmpty && !selectedState.isEmpty
+        return hasZip || hasCity
     }
 
     func save(locationManager: LocationManager) async {
@@ -55,8 +64,9 @@ private class LocationEditViewModel: ObservableObject {
             let trimmed = locationText.trimmingCharacters(in: .whitespaces)
             if trimmed.range(of: #"^\d{5}$"#, options: .regularExpression) != nil {
                 locationDict["zip_code"] = trimmed
-            } else {
-                locationDict["city"] = trimmed
+            } else if !selectedCity.isEmpty {
+                locationDict["city"] = selectedCity
+                locationDict["state"] = selectedState
             }
         }
         do {
@@ -137,11 +147,42 @@ struct LocationEditView: View {
 
                 if !vm.useGPS {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Location")
+                        Text("ZIP Code")
                             .font(.headline)
-                        TextField("ZIP code, city, or neighborhood", text: $vm.locationText)
+                        TextField("Enter ZIP code", text: $vm.locationText)
                             .textFieldStyle(.roundedBorder)
+                            .keyboardType(.numberPad)
                             .autocorrectionDisabled()
+                            .onChange(of: vm.locationText) { _, newValue in
+                                if !newValue.isEmpty {
+                                    vm.selectedCity = ""
+                                    vm.selectedState = ""
+                                }
+                            }
+                    }
+
+                    HStack {
+                        Rectangle().frame(height: 1).foregroundStyle(Color.secondary.opacity(0.3))
+                        Text("or")
+                            .font(.caption.weight(.medium))
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 8)
+                        Rectangle().frame(height: 1).foregroundStyle(Color.secondary.opacity(0.3))
+                    }
+
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Search by City")
+                            .font(.headline)
+                        CitySearchField(
+                            label: "Type a city name",
+                            selectedCity: $vm.selectedCity,
+                            selectedState: $vm.selectedState
+                        )
+                        .onChange(of: vm.selectedCity) { _, newValue in
+                            if !newValue.isEmpty {
+                                vm.locationText = ""
+                            }
+                        }
                     }
                 }
 

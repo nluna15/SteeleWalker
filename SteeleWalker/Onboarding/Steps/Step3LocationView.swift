@@ -67,18 +67,48 @@ struct Step3LocationView: View {
                     Rectangle().frame(height: 1).foregroundStyle(Color.secondary.opacity(0.3))
                 }
 
-                // Option 2 — Manual text field
+                // Option 2 — ZIP code
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Add Location")
+                    Text("ZIP Code")
                         .font(.headline)
-                    TextField("ZIP code, city, or neighborhood", text: $vm.locationText)
+                    TextField("Enter ZIP code", text: $vm.locationText)
                         .textFieldStyle(.roundedBorder)
+                        .keyboardType(.numberPad)
                         .autocorrectionDisabled()
                         .onChange(of: vm.locationText) { _, newValue in
                             if !newValue.isEmpty {
                                 vm.useGPS = false
+                                vm.selectedCity = ""
+                                vm.selectedState = ""
                             }
                         }
+                }
+
+                // "or" divider
+                HStack {
+                    Rectangle().frame(height: 1).foregroundStyle(Color.secondary.opacity(0.3))
+                    Text("or")
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 8)
+                    Rectangle().frame(height: 1).foregroundStyle(Color.secondary.opacity(0.3))
+                }
+
+                // Option 3 — City search
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Search by City")
+                        .font(.headline)
+                    CitySearchField(
+                        label: "Type a city name",
+                        selectedCity: $vm.selectedCity,
+                        selectedState: $vm.selectedState
+                    )
+                    .onChange(of: vm.selectedCity) { _, newValue in
+                        if !newValue.isEmpty {
+                            vm.useGPS = false
+                            vm.locationText = ""
+                        }
+                    }
                 }
 
                 submitButton

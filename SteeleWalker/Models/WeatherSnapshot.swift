@@ -83,6 +83,22 @@ struct WeatherSnapshot: Codable {
         capturedAt        = try c.decode(Date.self, forKey: .capturedAt)
     }
 
+    func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(temperatureF, forKey: .temperatureF)
+        try c.encode(feelsLikeF, forKey: .feelsLikeF)
+        try c.encode(humidity, forKey: .humidity)
+        try c.encode(windSpeedMph, forKey: .windSpeedMph)
+        try c.encode(precipProbability, forKey: .precipProbability)
+        try c.encodeIfPresent(precipType, forKey: .precipType)
+        try c.encode(weatherCode, forKey: .weatherCode)
+        try c.encode(conditionText, forKey: .conditionText)
+        try c.encode(uvIndex, forKey: .uvIndex)
+        try c.encodeIfPresent(aqi, forKey: .aqi)
+        try c.encode(windDirectionDeg, forKey: .windDirectionDeg)
+        try c.encode(capturedAt, forKey: .capturedAt)
+    }
+
     /// 8-point cardinal direction derived from `windDirectionDeg`.
     var windCardinal: String {
         Self.cardinal(from: windDirectionDeg)

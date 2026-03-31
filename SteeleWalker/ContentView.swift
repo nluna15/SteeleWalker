@@ -61,6 +61,14 @@ private struct WeatherContentView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
+                if let detail = vm.recommendation?.household.current {
+                    WalkSafetyCard(detail: detail)
+                }
+
+                if let walks = vm.recommendation?.scheduledWalks, !walks.isEmpty {
+                    ScheduledWalksCard(walks: walks, timezone: vm.timezone ?? "UTC")
+                }
+
                 if let current = vm.current {
                     CurrentWeatherCard(snapshot: current, metric: useMetric)
 
@@ -78,14 +86,13 @@ private struct WeatherContentView: View {
                 }
 
                 if !vm.hourly.isEmpty {
-                    LazyVStack(spacing: 0) {
-                        ForEach(vm.hourly) { hour in
-                            HourlyForecastRow(forecast: hour, metric: useMetric)
-                                .padding(.vertical, 6)
-                                .padding(.horizontal)
-                            Divider()
-                        }
-                    }
+                    HourlyChartsSection(
+                        hourly: vm.hourly,
+                        metric: useMetric,
+                        recommendation: vm.recommendation,
+                        timezone: vm.timezone
+                    )
+
                 }
             }
             .padding(.top)
