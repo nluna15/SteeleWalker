@@ -3,7 +3,7 @@ import SwiftUI
 struct HourlyChartsSection: View {
     let hourly: [HourlyForecast]
     let metric: Bool
-    let recommendation: WalkRecommendation?
+    let hourlyRecommendations: [HourlyRecommendationDetail]
     let timezone: String?
 
     var body: some View {
@@ -11,7 +11,7 @@ struct HourlyChartsSection: View {
             TemperatureChartView(
                 hourly: hourly,
                 metric: metric,
-                hourlyRecommendations: recommendation?.household.hourly ?? [],
+                hourlyRecommendations: hourlyRecommendations,
                 timezone: timezone
             )
 

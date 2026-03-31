@@ -64,7 +64,7 @@ struct WindChartView: View {
                 RuleMark(y: .value("Strong", strongThreshold))
                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [5, 3]))
                     .foregroundStyle(.secondary)
-                    .annotation(position: .trailing, alignment: .leading) {
+                    .annotation(position: .top, alignment: .leading) {
                         Text("Strong")
                             .font(.caption2)
                             .foregroundStyle(.secondary)

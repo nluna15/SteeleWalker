@@ -61,21 +61,28 @@ private struct WeatherContentView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                if let detail = vm.recommendation?.household.current {
-                    WalkSafetyCard(detail: detail)
-                }
-
-                if let walks = vm.recommendation?.scheduledWalks, !walks.isEmpty {
-                    ScheduledWalksCard(walks: walks, timezone: vm.timezone ?? "UTC")
-                }
+                DogSelectorView(
+                    dogs: vm.dogs,
+                    selectedDogIds: vm.selectedDogIds,
+                    onToggle: vm.toggleDog,
+                    onSelectAll: vm.selectAll
+                )
 
                 if let current = vm.current {
-                    CurrentWeatherCard(snapshot: current, metric: useMetric)
+                    CurrentWeatherCard(
+                        snapshot: current,
+                        metric: useMetric,
+                        recommendationDetail: vm.activeCurrentDetail
+                    )
 
                     if !vm.lastUpdatedText.isEmpty {
                         Text(vm.lastUpdatedText)
                             .font(.caption)
                             .foregroundStyle(.tertiary)
+                    }
+
+                    if let walks = vm.recommendation?.scheduledWalks, !walks.isEmpty {
+                        ScheduledWalksCard(walks: walks, timezone: vm.timezone ?? "UTC")
                     }
                 } else if !vm.isLoading {
                     ContentUnavailableView(
@@ -89,10 +96,9 @@ private struct WeatherContentView: View {
                     HourlyChartsSection(
                         hourly: vm.hourly,
                         metric: useMetric,
-                        recommendation: vm.recommendation,
+                        hourlyRecommendations: vm.activeHourlyRecommendations,
                         timezone: vm.timezone
                     )
-
                 }
             }
             .padding(.top)

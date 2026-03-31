@@ -11,10 +11,11 @@ class WeatherViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var recommendation: WalkRecommendation?
     @Published var isLoadingRecommendation: Bool = false
+    @Published var dogs: [Dog] = []
+    @Published var selectedDogIds: Set<String> = []
 
     private let userId: String
     private var refreshTimer: Timer?
-    private var dogs: [Dog] = []
 
     init(userId: String) {
         self.userId = userId
@@ -86,6 +87,49 @@ class WeatherViewModel: ObservableObject {
         dogs = []
     }
 
+    // MARK: - Dog Selection
+
+    var allDogsSelected: Bool {
+        selectedDogIds.count == dogs.count
+    }
+
+    /// Current recommendation detail for the selected dog(s).
+    var activeCurrentDetail: RecommendationDetail? {
+        guard let rec = recommendation else { return nil }
+        if allDogsSelected { return rec.household.current }
+        let selected = rec.dogs.filter { selectedDogIds.contains($0.dogId) }
+        guard !selected.isEmpty else { return rec.household.current }
+        return selected.map(\.current).max(by: { $0.level < $1.level })
+    }
+
+    /// Hourly recommendations for the selected dog(s).
+    var activeHourlyRecommendations: [HourlyRecommendationDetail] {
+        guard let rec = recommendation else { return [] }
+        if allDogsSelected { return rec.household.hourly }
+        let selected = rec.dogs.filter { selectedDogIds.contains($0.dogId) }
+        guard !selected.isEmpty else { return rec.household.hourly }
+        if selected.count == 1 { return selected[0].hourly }
+
+        // Merge: for each timestamp, take the most restrictive level
+        let first = selected[0].hourly
+        return first.enumerated().map { index, entry in
+            selected.compactMap { $0.hourly[safe: index] }.max(by: { $0.level < $1.level }) ?? entry
+        }
+    }
+
+    func toggleDog(_ id: String) {
+        if selectedDogIds.contains(id) {
+            guard selectedDogIds.count > 1 else { return }
+            selectedDogIds.remove(id)
+        } else {
+            selectedDogIds.insert(id)
+        }
+    }
+
+    func selectAll() {
+        selectedDogIds = Set(dogs.map(\.id))
+    }
+
     // MARK: - Recommendation
 
     private func fetchRecommendation(envelope: ForecastEnvelope) async {
@@ -97,6 +141,10 @@ class WeatherViewModel: ObservableObject {
                 debugLog("fetchDogs START")
                 dogs = try await DogService.fetchDogs(userId: userId)
                 debugLog("fetchDogs DONE - \(dogs.count) dogs")
+            }
+
+            if selectedDogIds.isEmpty {
+                selectedDogIds = Set(dogs.map(\.id))
             }
 
             guard !dogs.isEmpty else {
@@ -144,5 +192,11 @@ class WeatherViewModel: ObservableObject {
         #if DEBUG
         print("[Weather] \(message)")
         #endif
+    }
+}
+
+private extension Array {
+    subscript(safe index: Int) -> Element? {
+        indices.contains(index) ? self[index] : nil
     }
 }
