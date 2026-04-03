@@ -93,6 +93,7 @@ struct WalkRecommendation: Codable {
 /// A scheduled walk recommendation tied to the user's walking schedule.
 struct ScheduledWalkRecommendation: Codable, Identifiable {
     let preferredTime: String        // "HH:mm"
+    let recommendedTime: String?     // Optimized "HH:mm" within the walk window.
     let localTimestamp: String       // ISO 8601 with offset
     let dayLabel: String             // "Today", "Tomorrow", etc.
     let scheduleType: String         // "weekday" or "weekend"
@@ -103,6 +104,7 @@ struct ScheduledWalkRecommendation: Codable, Identifiable {
 
     enum CodingKeys: String, CodingKey {
         case preferredTime   = "preferred_time"
+        case recommendedTime = "recommended_time"
         case localTimestamp  = "local_timestamp"
         case dayLabel        = "day_label"
         case scheduleType    = "schedule_type"

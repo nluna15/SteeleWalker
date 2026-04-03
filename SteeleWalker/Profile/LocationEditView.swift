@@ -56,17 +56,39 @@ private class LocationEditViewModel: ObservableObject {
 
     func save(locationManager: LocationManager) async {
         isSaving = true
+        // Build a complete location dict with FieldValue.delete() for unused
+        // fields so setData(merge:) doesn't leave stale subfields behind.
         var locationDict: [String: Any]
         if useGPS, let coord = locationManager.lastLocation {
-            locationDict = ["type": "gps", "lat": coord.latitude, "long": coord.longitude]
+            locationDict = [
+                "type": "gps",
+                "lat": coord.latitude,
+                "long": coord.longitude,
+                "zip_code": FieldValue.delete(),
+                "city": FieldValue.delete(),
+                "state": FieldValue.delete()
+            ]
         } else {
-            locationDict = ["type": "manual"]
             let trimmed = locationText.trimmingCharacters(in: .whitespaces)
-            if trimmed.range(of: #"^\d{5}$"#, options: .regularExpression) != nil {
-                locationDict["zip_code"] = trimmed
-            } else if !selectedCity.isEmpty {
-                locationDict["city"] = selectedCity
-                locationDict["state"] = selectedState
+            let isZip = trimmed.range(of: #"^\d{5}$"#, options: .regularExpression) != nil
+            if isZip {
+                locationDict = [
+                    "type": "manual",
+                    "zip_code": trimmed,
+                    "city": FieldValue.delete(),
+                    "state": FieldValue.delete(),
+                    "lat": FieldValue.delete(),
+                    "long": FieldValue.delete()
+                ]
+            } else {
+                locationDict = [
+                    "type": "manual",
+                    "city": selectedCity,
+                    "state": selectedState,
+                    "zip_code": FieldValue.delete(),
+                    "lat": FieldValue.delete(),
+                    "long": FieldValue.delete()
+                ]
             }
         }
         do {
@@ -86,9 +108,11 @@ struct LocationEditView: View {
     @StateObject private var vm: LocationEditViewModel
     @EnvironmentObject var locationManager: LocationManager
     @Environment(\.dismiss) private var dismiss
+    var onSave: (() -> Void)?
 
-    init(userId: String) {
+    init(userId: String, onSave: (() -> Void)? = nil) {
         _vm = StateObject(wrappedValue: LocationEditViewModel(userId: userId))
+        self.onSave = onSave
     }
 
     var body: some View {
@@ -221,7 +245,10 @@ struct LocationEditView: View {
             Text(vm.errorMessage ?? "Could not save location.")
         }
         .onChange(of: vm.didSave) { _, saved in
-            if saved { dismiss() }
+            if saved {
+                onSave?()
+                dismiss()
+            }
         }
     }
 }

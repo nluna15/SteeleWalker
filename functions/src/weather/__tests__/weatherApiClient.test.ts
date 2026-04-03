@@ -87,10 +87,10 @@ function makeMockResponse(
 
   return {
     data: {
-      location: { tz_id: timezone },
+      location: { tz_id: timezone, name: "Los Angeles" },
       current: makeCurrent(currentOverrides),
       forecast: {
-        forecastday: days.map((hours) => ({ hour: hours })),
+        forecastday: days.map((hours) => ({ hour: hours, astro: { sunrise: "06:45 AM", sunset: "07:30 PM" } })),
       },
     },
   };
@@ -109,6 +109,7 @@ describe("fetchForecast", () => {
     expect(result.current).toBeDefined();
     expect(result.hourly).toHaveLength(48);
     expect(result.timezone).toBe("America/Los_Angeles");
+    expect(result.location_name).toBe("Los Angeles");
   });
 
   it("maps temperature, humidity, wind, and uv correctly", async () => {
@@ -147,12 +148,12 @@ describe("fetchForecast", () => {
     delete (current as Record<string, unknown>).air_quality;
     mockedAxios.get.mockResolvedValueOnce({
       data: {
-        location: { tz_id: "America/Los_Angeles" },
+        location: { tz_id: "America/Los_Angeles", name: "Los Angeles" },
         current,
         forecast: {
           forecastday: [
-            { hour: makeDay("2026-03-04") },
-            { hour: makeDay("2026-03-05") },
+            { hour: makeDay("2026-03-04"), astro: { sunrise: "06:45 AM", sunset: "07:30 PM" } },
+            { hour: makeDay("2026-03-05"), astro: { sunrise: "06:44 AM", sunset: "07:31 PM" } },
           ],
         },
       },
@@ -343,7 +344,7 @@ describe("fetchForecast", () => {
   it("throws when WeatherAPI returns no hourly data", async () => {
     mockedAxios.get.mockResolvedValueOnce({
       data: {
-        location: { tz_id: "UTC" },
+        location: { tz_id: "UTC", name: "Unknown" },
         current: makeCurrent(),
         forecast: { forecastday: [] },
       },

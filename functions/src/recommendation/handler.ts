@@ -231,6 +231,80 @@ interface ResolvedSlot {
   schedule_type: string;
 }
 
+/** Named walk window bounds keyed by hour ranges matching the app's WalkTime enum. */
+const WALK_WINDOWS: Array<{ startHour: number; endHour: number }> = [
+  { startHour: 7,  endHour: 9  },  // morning
+  { startHour: 11, endHour: 13 },  // midday
+  { startHour: 14, endHour: 17 },  // afternoon
+  { startHour: 18, endHour: 20 },  // evening
+];
+
+/**
+ * Return the walk window that contains `preferredTime`, or fall back to a
+ * ±1-hour band around the preferred hour when the time falls outside all
+ * named windows.
+ */
+export function getWindowBoundsForPreferredTime(
+  preferredTime: string
+): { startHour: number; endHour: number } {
+  const [hourStr] = preferredTime.split(":");
+  const hour = parseInt(hourStr, 10);
+
+  for (const window of WALK_WINDOWS) {
+    if (hour >= window.startHour && hour <= window.endHour) {
+      return window;
+    }
+  }
+
+  // Fallback: ±1 hour, clamped to [0, 23]
+  return {
+    startHour: Math.max(0, hour - 1),
+    endHour:   Math.min(23, hour + 1),
+  };
+}
+
+/**
+ * From all hourly entries that fall within the walk window on `date`, find the
+ * one with the least restrictive household recommendation level.  Ties are
+ * broken by proximity to `preferredHour` so the user's preference is respected
+ * when conditions are equally good.
+ *
+ * Returns the winning entry, or `undefined` when no candidates are in the
+ * forecast.
+ */
+export function pickBestHourInWindow(
+  hourly: HourlyEntry[],
+  date: string,
+  preferredHour: number,
+  windowStart: number,
+  windowEnd: number,
+  dogs: FirestoreDog[],
+  timezone: string
+): HourlyEntry | undefined {
+  const candidates = hourly.filter((h) => {
+    if (!h.local_timestamp.startsWith(date)) return false;
+    const entryHour = parseInt(h.local_timestamp.substring(11, 13), 10);
+    return entryHour >= windowStart && entryHour <= windowEnd;
+  });
+
+  if (candidates.length === 0) return undefined;
+
+  return candidates.reduce((best, current) => {
+    const bestLevel   = evaluateHouseholdForWeather(dogs, best,    timezone).level;
+    const currentLevel = evaluateHouseholdForWeather(dogs, current, timezone).level;
+
+    if (currentLevel < bestLevel) return current;
+    if (currentLevel > bestLevel) return best;
+
+    // Tie: prefer the hour closest to the user's preferred time
+    const bestHour    = parseInt(best.local_timestamp.substring(11, 13),    10);
+    const currentHour = parseInt(current.local_timestamp.substring(11, 13), 10);
+    return Math.abs(currentHour - preferredHour) < Math.abs(bestHour - preferredHour)
+      ? current
+      : best;
+  });
+}
+
 /** Day names for day_label when neither today nor tomorrow. */
 const DAY_NAMES = [
   "Sunday",
@@ -345,26 +419,35 @@ function resolveNextWalks(
 
   // Map each resolved slot to a forecast entry and evaluate
   return resolved.map((slot) => {
-    // Floor preferred_time to the containing hour
     const [hourStr] = slot.preferred_time.split(":");
-    const slotHour = parseInt(hourStr, 10);
+    const preferredHour = parseInt(hourStr, 10);
 
-    // Find the matching hourly entry by date + hour
-    const matchedEntry = hourly.find((h) => {
-      // h.local_timestamp is like "2026-03-22T08:00:00-07:00"
-      const dateMatch = h.local_timestamp.startsWith(slot.date);
-      if (!dateMatch) return false;
-      const timeMatch = h.local_timestamp.substring(11, 13);
-      return parseInt(timeMatch, 10) === slotHour;
-    });
+    // Find the best hour within the walk window
+    const { startHour, endHour } = getWindowBoundsForPreferredTime(slot.preferred_time);
+    const bestEntry = pickBestHourInWindow(
+      hourly,
+      slot.date,
+      preferredHour,
+      startHour,
+      endHour,
+      dogs,
+      timezone
+    );
 
-    // Build the local_timestamp for the slot
-    const localTimestamp = buildLocalTimestamp(slot.date, slot.preferred_time, timezone);
+    // Derive the recommended time from the winning entry, falling back to preferred
+    let recommendedTime = slot.preferred_time;
+    if (bestEntry) {
+      const bestHour = parseInt(bestEntry.local_timestamp.substring(11, 13), 10);
+      recommendedTime = `${String(bestHour).padStart(2, "0")}:00`;
+    }
 
-    // Evaluate recommendation
+    // Build the local_timestamp using the recommended time
+    const localTimestamp = buildLocalTimestamp(slot.date, recommendedTime, timezone);
+
+    // Evaluate recommendation at the best hour
     let recommendation;
-    if (matchedEntry) {
-      recommendation = evaluateHouseholdForWeather(dogs, matchedEntry, timezone);
+    if (bestEntry) {
+      recommendation = evaluateHouseholdForWeather(dogs, bestEntry, timezone);
     } else {
       // No matching forecast (out of 48h window) — return optimal as fallback
       recommendation = {
@@ -381,6 +464,7 @@ function resolveNextWalks(
 
     return {
       preferred_time: slot.preferred_time,
+      recommended_time: recommendedTime,
       local_timestamp: localTimestamp,
       day_label: slot.day_label,
       schedule_type: slot.schedule_type,

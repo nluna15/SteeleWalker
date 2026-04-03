@@ -13,6 +13,9 @@ class WeatherViewModel: ObservableObject {
     @Published var isLoadingRecommendation: Bool = false
     @Published var dogs: [Dog] = []
     @Published var selectedDogIds: Set<String> = []
+    @Published var sunrise: String?
+    @Published var sunset: String?
+    @Published var locationDisplay: String?
 
     private let userId: String
     private var refreshTimer: Timer?
@@ -49,7 +52,17 @@ class WeatherViewModel: ObservableObject {
             current = envelope.current
             hourly = envelope.hourly
             timezone = envelope.timezone
+            sunrise = envelope.sunrise
+            sunset = envelope.sunset
             lastUpdated = Date()
+
+            // Build location display: "ZIP · City" or just "City"
+            let city = envelope.locationName ?? location.city
+            if let zip = location.zipCode, !zip.isEmpty {
+                locationDisplay = city.map { "\(zip) · \($0)" } ?? zip
+            } else {
+                locationDisplay = city
+            }
 
             await fetchRecommendation(envelope: envelope)
         } catch {

@@ -38,4 +38,10 @@ export interface ForecastResponse {
   hourly: HourlyEntry[];
   /** IANA timezone of the queried location, e.g. "America/Los_Angeles". */
   timezone: string;
+  /** Sunrise time for today, e.g. "06:45 AM". */
+  sunrise: string;
+  /** Sunset time for today, e.g. "07:30 PM". */
+  sunset: string;
+  /** City/locality name returned by the weather provider for the queried coordinates. */
+  location_name: string;
 }

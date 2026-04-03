@@ -154,11 +154,16 @@ interface WeatherApiHour {
 
 interface WeatherApiForecastDay {
   hour: WeatherApiHour[];
+  astro: {
+    sunrise: string;
+    sunset: string;
+  };
 }
 
 interface WeatherApiResponse {
   location: {
     tz_id: string; // IANA timezone
+    name: string;  // City/locality name
   };
   current: WeatherApiCurrent;
   forecast: {
@@ -194,6 +199,7 @@ export async function fetchForecast(
 
   const data = response.data;
   const timezone = data.location.tz_id || "UTC";
+  const locationName = data.location.name || "";
   const capturedAt = new Date().toISOString();
 
   // --- Current conditions ---
@@ -253,5 +259,10 @@ export async function fetchForecast(
     };
   });
 
-  return { current, hourly, timezone };
+  const astro = data.forecast.forecastday[0]?.astro;
+  // JSON.stringify omits `undefined`; Swift requires these keys, so always send strings.
+  const sunrise = astro?.sunrise ?? "";
+  const sunset = astro?.sunset ?? "";
+
+  return { current, hourly, timezone, sunrise, sunset, location_name: locationName };
 }

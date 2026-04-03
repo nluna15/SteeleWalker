@@ -6,6 +6,7 @@ struct ProfileView: View {
     @State private var dogs: [Dog] = []
     @State private var isLoadingDogs: Bool = false
     @State private var loadError: String?
+    var onLocationSave: (() -> Void)?
 
     private var userId: String { auth.currentUser?.uid ?? "" }
 
@@ -41,7 +42,7 @@ struct ProfileView: View {
             // MARK: Location
             Section("Location") {
                 NavigationLink("Edit Location") {
-                    LocationEditView(userId: userId)
+                    LocationEditView(userId: userId, onSave: onLocationSave)
                 }
             }
 

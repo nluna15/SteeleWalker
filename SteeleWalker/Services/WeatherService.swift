@@ -120,6 +120,9 @@ struct WeatherService {
             return envelope
         } catch {
             debugLog("decode FAILED: \(error)")
+            if let decoding = error as? DecodingError {
+                debugLog(decoding.localizedDescription)
+            }
             throw error
         }
     }
@@ -136,6 +139,15 @@ struct ForecastEnvelope: Decodable {
     let current: WeatherSnapshot
     let hourly: [HourlyForecast]
     let timezone: String
+    /// Present when the API includes astro times; absent on older function builds or empty provider data.
+    let sunrise: String?
+    let sunset: String?
+    let locationName: String?
+
+    enum CodingKeys: String, CodingKey {
+        case current, hourly, timezone, sunrise, sunset
+        case locationName = "location_name"
+    }
 }
 
 enum WeatherError: LocalizedError {

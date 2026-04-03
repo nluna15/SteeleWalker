@@ -116,7 +116,8 @@ export interface FirestoreWalkingSchedule {
 /** A scheduled walk recommendation in the response. */
 export interface ScheduledWalkRecommendation {
   preferred_time: string;       // original "HH:mm"
-  local_timestamp: string;      // full ISO 8601 with offset for the actual date+time
+  recommended_time: string;     // optimized "HH:mm" within the walk window (may equal preferred_time)
+  local_timestamp: string;      // full ISO 8601 with offset for the recommended date+time
   day_label: string;            // "Today", "Tomorrow", or weekday name
   schedule_type: string;        // "weekday" or "weekend"
   duration_minutes: number;

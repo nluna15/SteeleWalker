@@ -25,7 +25,10 @@ struct ContentView: View {
 
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        ProfileView()
+                        ProfileView(onLocationSave: {
+                            guard let vm = weatherVM else { return }
+                            Task { await vm.loadForecast() }
+                        })
                     } label: {
                         Image(systemName: "person.circle")
                     }
@@ -68,6 +71,12 @@ private struct WeatherContentView: View {
                     onSelectAll: vm.selectAll
                 )
 
+                if let locationDisplay = vm.locationDisplay {
+                    Text(locationDisplay)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+
                 if let current = vm.current {
                     CurrentWeatherCard(
                         snapshot: current,
@@ -99,6 +108,10 @@ private struct WeatherContentView: View {
                         hourlyRecommendations: vm.activeHourlyRecommendations,
                         timezone: vm.timezone
                     )
+                }
+
+                if let sunrise = vm.sunrise, let sunset = vm.sunset {
+                    SunriseSunsetCard(sunrise: sunrise, sunset: sunset)
                 }
             }
             .padding(.top)
