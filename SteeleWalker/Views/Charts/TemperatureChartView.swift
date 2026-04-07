@@ -30,8 +30,8 @@ struct TemperatureChartView: View {
     var body: some View {
         WeatherChartCard(title: "Temperature", systemImage: "thermometer.medium") {
             Chart {
-                // Recommendation background bands
-                ForEach(hourlyRecommendations.prefix(24)) { rec in
+                // Severity background bands (shortWalk and above only)
+                ForEach(hourlyRecommendations.prefix(24).filter { $0.recommendationLevel >= .shortWalk }) { rec in
                     if let start = rec.date {
                         let end = Calendar.current.date(byAdding: .hour, value: 1, to: start) ?? start
                         RectangleMark(
@@ -50,7 +50,7 @@ struct TemperatureChartView: View {
                     )
                     .foregroundStyle(
                         .linearGradient(
-                            colors: [.orange.opacity(0.3), .orange.opacity(0.0)],
+                            colors: [Color.primary.opacity(0.15), Color.primary.opacity(0.0)],
                             startPoint: .top,
                             endPoint: .bottom
                         )
@@ -64,7 +64,7 @@ struct TemperatureChartView: View {
                         x: .value("Time", point.date),
                         y: .value("Temp", point.temp)
                     )
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(.primary)
                     .interpolationMethod(.catmullRom)
                     .lineStyle(StrokeStyle(lineWidth: 2))
                 }
@@ -118,6 +118,27 @@ struct TemperatureChartView: View {
                 }
             }
             .frame(height: 200)
+
+            // Severity legend
+            let activeLevels: [RecommendationLevel] = [.shortWalk, .veryShortWalk, .bathroomOnly, .doNotWalk]
+            let presentLevels = activeLevels.filter { level in
+                hourlyRecommendations.prefix(24).contains { $0.recommendationLevel == level }
+            }
+            if !presentLevels.isEmpty {
+                HStack(spacing: 12) {
+                    ForEach(presentLevels, id: \.rawValue) { level in
+                        HStack(spacing: 4) {
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(level.color.opacity(0.3))
+                                .frame(width: 12, height: 12)
+                            Text(level.displayName)
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                .padding(.top, 4)
+            }
         }
     }
 

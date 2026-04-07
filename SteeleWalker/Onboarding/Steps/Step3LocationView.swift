@@ -67,19 +67,20 @@ struct Step3LocationView: View {
                     Rectangle().frame(height: 1).foregroundStyle(Color.secondary.opacity(0.3))
                 }
 
-                // Option 2 — ZIP code
+                // Option 2 — Postal code
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("ZIP Code")
+                    Text("Postal Code")
                         .font(.headline)
-                    TextField("Enter ZIP code", text: $vm.locationText)
+                    TextField("Enter postal code", text: $vm.locationText)
                         .textFieldStyle(.roundedBorder)
-                        .keyboardType(.numberPad)
+                        .keyboardType(.default)
                         .autocorrectionDisabled()
                         .onChange(of: vm.locationText) { _, newValue in
                             if !newValue.isEmpty {
                                 vm.useGPS = false
                                 vm.selectedCity = ""
-                                vm.selectedState = ""
+                                vm.selectedRegion = ""
+                                vm.selectedCountry = ""
                             }
                         }
                 }
@@ -101,7 +102,8 @@ struct Step3LocationView: View {
                     CitySearchField(
                         label: "Type a city name",
                         selectedCity: $vm.selectedCity,
-                        selectedState: $vm.selectedState
+                        selectedRegion: $vm.selectedRegion,
+                        selectedCountry: $vm.selectedCountry
                     )
                     .onChange(of: vm.selectedCity) { _, newValue in
                         if !newValue.isEmpty {

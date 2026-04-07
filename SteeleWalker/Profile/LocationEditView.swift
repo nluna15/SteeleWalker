@@ -7,7 +7,8 @@ import FirebaseFirestore
 private class LocationEditViewModel: ObservableObject {
     @Published var locationText: String = ""  // ZIP code only
     @Published var selectedCity: String = ""
-    @Published var selectedState: String = ""
+    @Published var selectedRegion: String = ""
+    @Published var selectedCountry: String = ""
     @Published var useGPS: Bool = false
 
     @Published var isLoading = false
@@ -35,8 +36,9 @@ private class LocationEditViewModel: ObservableObject {
                         locationText = zip
                     } else if let city = loc.city, !city.isEmpty {
                         selectedCity = city
-                        selectedState = loc.state ?? ""
-                        currentLocationDisplay = selectedState.isEmpty ? city : "\(city), \(selectedState)"
+                        selectedRegion = loc.region ?? ""
+                        selectedCountry = loc.country ?? ""
+                        currentLocationDisplay = selectedRegion.isEmpty ? city : "\(city), \(selectedRegion)"
                     }
                 }
             }
@@ -48,9 +50,8 @@ private class LocationEditViewModel: ObservableObject {
 
     var isValid: Bool {
         if useGPS { return true }
-        let hasZip = locationText.trimmingCharacters(in: .whitespaces)
-            .range(of: #"^\d{5}$"#, options: .regularExpression) != nil
-        let hasCity = !selectedCity.isEmpty && !selectedState.isEmpty
+        let hasZip = !locationText.trimmingCharacters(in: .whitespaces).isEmpty
+        let hasCity = !selectedCity.isEmpty && !selectedRegion.isEmpty
         return hasZip || hasCity
     }
 
@@ -66,29 +67,36 @@ private class LocationEditViewModel: ObservableObject {
                 "long": coord.longitude,
                 "zip_code": FieldValue.delete(),
                 "city": FieldValue.delete(),
-                "state": FieldValue.delete()
+                "state": FieldValue.delete(),
+                "country": FieldValue.delete()
             ]
         } else {
             let trimmed = locationText.trimmingCharacters(in: .whitespaces)
-            let isZip = trimmed.range(of: #"^\d{5}$"#, options: .regularExpression) != nil
-            if isZip {
+            if !trimmed.isEmpty {
                 locationDict = [
                     "type": "manual",
                     "zip_code": trimmed,
                     "city": FieldValue.delete(),
                     "state": FieldValue.delete(),
+                    "country": FieldValue.delete(),
                     "lat": FieldValue.delete(),
                     "long": FieldValue.delete()
                 ]
             } else {
-                locationDict = [
+                var dict: [String: Any] = [
                     "type": "manual",
                     "city": selectedCity,
-                    "state": selectedState,
+                    "state": selectedRegion,
                     "zip_code": FieldValue.delete(),
                     "lat": FieldValue.delete(),
                     "long": FieldValue.delete()
                 ]
+                if !selectedCountry.isEmpty {
+                    dict["country"] = selectedCountry
+                } else {
+                    dict["country"] = FieldValue.delete()
+                }
+                locationDict = dict
             }
         }
         do {
@@ -171,16 +179,17 @@ struct LocationEditView: View {
 
                 if !vm.useGPS {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("ZIP Code")
+                        Text("Postal Code")
                             .font(.headline)
-                        TextField("Enter ZIP code", text: $vm.locationText)
+                        TextField("Enter postal code", text: $vm.locationText)
                             .textFieldStyle(.roundedBorder)
-                            .keyboardType(.numberPad)
+                            .keyboardType(.default)
                             .autocorrectionDisabled()
                             .onChange(of: vm.locationText) { _, newValue in
                                 if !newValue.isEmpty {
                                     vm.selectedCity = ""
-                                    vm.selectedState = ""
+                                    vm.selectedRegion = ""
+                                    vm.selectedCountry = ""
                                 }
                             }
                     }
@@ -200,7 +209,8 @@ struct LocationEditView: View {
                         CitySearchField(
                             label: "Type a city name",
                             selectedCity: $vm.selectedCity,
-                            selectedState: $vm.selectedState
+                            selectedRegion: $vm.selectedRegion,
+                            selectedCountry: $vm.selectedCountry
                         )
                         .onChange(of: vm.selectedCity) { _, newValue in
                             if !newValue.isEmpty {

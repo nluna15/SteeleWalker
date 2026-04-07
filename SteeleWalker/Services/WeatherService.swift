@@ -32,7 +32,12 @@ struct WeatherService {
         if let zip = location.zipCode, !zip.isEmpty {
             query = zip
         } else if let city = location.city, !city.isEmpty {
-            query = city
+            // Include region and country for better disambiguation
+            // e.g. "London, England, GB" instead of just "London"
+            var parts = [city]
+            if let region = location.region, !region.isEmpty { parts.append(region) }
+            if let country = location.country, !country.isEmpty { parts.append(country) }
+            query = parts.joined(separator: ", ")
         } else {
             debugLog("resolveCoordinates - no GPS, zip, or city")
             throw WeatherError.unresolvableLocation

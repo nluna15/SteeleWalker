@@ -111,7 +111,8 @@ class OnboardingViewModel: ObservableObject {
     @Published var useGPS: Bool = false
     @Published var locationText: String = ""  // kept for ZIP code entry
     @Published var selectedCity: String = ""
-    @Published var selectedState: String = ""
+    @Published var selectedRegion: String = ""
+    @Published var selectedCountry: String = ""
     @Published var gpsLatitude: Double?
     @Published var gpsLongitude: Double?
 
@@ -155,9 +156,8 @@ class OnboardingViewModel: ObservableObject {
         if useGPS {
             return gpsLatitude != nil && gpsLongitude != nil
         } else {
-            let hasZip = locationText.trimmingCharacters(in: .whitespaces)
-                .range(of: #"^\d{5}$"#, options: .regularExpression) != nil
-            let hasCity = !selectedCity.isEmpty && !selectedState.isEmpty
+            let hasZip = !locationText.trimmingCharacters(in: .whitespaces).isEmpty
+            let hasCity = !selectedCity.isEmpty && !selectedRegion.isEmpty
             return hasZip || hasCity
         }
     }
@@ -242,11 +242,14 @@ class OnboardingViewModel: ObservableObject {
             } else {
                 locationDict = ["type": "manual"]
                 let trimmed = locationText.trimmingCharacters(in: .whitespaces)
-                if trimmed.range(of: #"^\d{5}$"#, options: .regularExpression) != nil {
+                if !trimmed.isEmpty {
                     locationDict["zip_code"] = trimmed
                 } else if !selectedCity.isEmpty {
                     locationDict["city"] = selectedCity
-                    locationDict["state"] = selectedState
+                    locationDict["state"] = selectedRegion
+                    if !selectedCountry.isEmpty {
+                        locationDict["country"] = selectedCountry
+                    }
                 }
             }
             let userRef = db.collection("users").document(userId)

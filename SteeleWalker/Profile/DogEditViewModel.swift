@@ -13,6 +13,8 @@ class DogEditViewModel: ObservableObject {
     @Published var mobilities: Set<DogMobility>
     @Published var mobilityNote: String
     @Published var sensitivities: Set<DogSensitivity>
+    @Published var photoUrl: String?
+    @Published var selectedPhotoData: Data?
 
     @Published var isSaving: Bool = false
     @Published var didSave: Bool = false
@@ -53,6 +55,7 @@ class DogEditViewModel: ObservableObject {
         self.mobilities = derived.isEmpty ? [.noRestrictions] : derived
         self.mobilityNote = dog.healthNotes ?? ""
         self.sensitivities = Set(dog.sensitivities.compactMap { DogSensitivity(rawValue: $0) })
+        self.photoUrl = dog.photoUrl
 
         // Resolve display names from seed for each stored breed ID
         self.breedDisplayNames = dog.breedIds.compactMap { id in
@@ -77,6 +80,12 @@ class DogEditViewModel: ObservableObject {
         }
 
         do {
+            if let photoData = selectedPhotoData {
+                let url = try await StorageService.uploadDogPhoto(dogId: dog.id, imageData: photoData)
+                fields["photo_url"] = url
+                photoUrl = url
+                selectedPhotoData = nil
+            }
             try await DogService.updateDog(id: dog.id, fields: fields)
             didSave = true
         } catch {

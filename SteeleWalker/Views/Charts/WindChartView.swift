@@ -22,10 +22,6 @@ struct WindChartView: View {
         dataPoints.max(by: { $0.speed < $1.speed })
     }
 
-    private var strongThreshold: Double {
-        metric ? 32.0 : 20.0
-    }
-
     private var tz: TimeZone {
         timezone.flatMap { TimeZone(identifier: $0) } ?? .current
     }
@@ -59,16 +55,6 @@ struct WindChartView: View {
                     .interpolationMethod(.catmullRom)
                     .lineStyle(StrokeStyle(lineWidth: 2))
                 }
-
-                // "Strong" threshold line
-                RuleMark(y: .value("Strong", strongThreshold))
-                    .lineStyle(StrokeStyle(lineWidth: 1, dash: [5, 3]))
-                    .foregroundStyle(.secondary)
-                    .annotation(position: .top, alignment: .leading) {
-                        Text("Strong")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-                    }
 
                 // Min annotation
                 if let min = minPoint {

@@ -20,7 +20,7 @@ struct DogSelectorView: View {
 
                     ForEach(dogs) { dog in
                         let isSelected = selectedDogIds.contains(dog.id)
-                        chip(label: dog.name, selected: isSelected) {
+                        chip(label: dog.name, photoUrl: dog.photoUrl, selected: isSelected) {
                             onToggle(dog.id)
                         }
                     }
@@ -31,15 +31,29 @@ struct DogSelectorView: View {
     }
 
     @ViewBuilder
-    private func chip(label: String, selected: Bool, action: @escaping () -> Void) -> some View {
+    private func chip(label: String, photoUrl: String? = nil, selected: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             HStack(spacing: 4) {
-                Image(systemName: "pawprint.fill")
-                    .font(.caption2)
+                if let photoUrl, let url = URL(string: photoUrl) {
+                    AsyncImage(url: url) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        Image(systemName: "pawprint.fill")
+                            .font(.caption2)
+                    }
+                    .frame(width: 18, height: 18)
+                    .clipShape(Circle())
+                } else {
+                    Image(systemName: "pawprint.fill")
+                        .font(.caption2)
+                }
                 Text(label)
                     .font(.subheadline.weight(.medium))
             }
-            .padding(.horizontal, 12)
+            .padding(.leading, photoUrl != nil ? 4 : 12)
+            .padding(.trailing, 12)
             .padding(.vertical, 6)
             .background(selected ? Color.accentColor : Color(.systemGray5))
             .foregroundStyle(selected ? .white : .primary)

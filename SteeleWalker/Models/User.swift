@@ -24,9 +24,13 @@ enum LocationType: String, Codable {
 /// ```json
 /// { "type": "gps", "lat": 37.77, "long": -122.41 }
 /// ```
-/// Firestore document shape (manual):
+/// Firestore document shape (manual — postal code):
 /// ```json
-/// { "type": "manual", "zip_code": "94103", "city": "San Francisco", "state": "CA" }
+/// { "type": "manual", "zip_code": "SW1A 1AA", "country": "GB" }
+/// ```
+/// Firestore document shape (manual — city):
+/// ```json
+/// { "type": "manual", "city": "London", "state": "England", "country": "GB" }
 /// ```
 struct Location: Codable {
     let type: LocationType
@@ -38,7 +42,11 @@ struct Location: Codable {
     // Manual entry fields — present only when type == .manual
     let zipCode: String?
     let city:    String?
-    let state:   String?
+    /// Administrative area (US state, province, prefecture, etc.).
+    /// Firestore key is `"state"` for backward compatibility.
+    let region:  String?
+    /// ISO 3166-1 alpha-2 country code (e.g. "US", "GB", "JP").
+    let country: String?
 
     enum CodingKeys: String, CodingKey {
         case type
@@ -46,17 +54,18 @@ struct Location: Codable {
         case longitude = "long"
         case zipCode   = "zip_code"
         case city
-        case state
+        case region    = "state"
+        case country
     }
 
     /// Convenience constructor for GPS-based location.
     static func gps(latitude: Double, longitude: Double) -> Location {
-        Location(type: .gps, latitude: latitude, longitude: longitude, zipCode: nil, city: nil, state: nil)
+        Location(type: .gps, latitude: latitude, longitude: longitude, zipCode: nil, city: nil, region: nil, country: nil)
     }
 
     /// Convenience constructor for manually entered location.
-    static func manual(zipCode: String? = nil, city: String? = nil, state: String? = nil) -> Location {
-        Location(type: .manual, latitude: nil, longitude: nil, zipCode: zipCode, city: city, state: state)
+    static func manual(zipCode: String? = nil, city: String? = nil, region: String? = nil, country: String? = nil) -> Location {
+        Location(type: .manual, latitude: nil, longitude: nil, zipCode: zipCode, city: city, region: region, country: country)
     }
 }
 

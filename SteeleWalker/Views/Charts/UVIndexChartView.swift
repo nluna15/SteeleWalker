@@ -27,15 +27,6 @@ struct UVIndexChartView: View {
                     .foregroundStyle(uvColor(for: point.uv))
                 }
 
-                // "High" threshold line
-                RuleMark(y: .value("High", 6))
-                    .lineStyle(StrokeStyle(lineWidth: 1, dash: [5, 3]))
-                    .foregroundStyle(.secondary)
-                    .annotation(position: .top, alignment: .leading) {
-                        Text("High")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-                    }
             }
             .chartXAxis {
                 AxisMarks(values: .stride(by: .hour, count: 6)) { value in

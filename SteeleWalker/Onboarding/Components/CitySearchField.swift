@@ -1,42 +1,27 @@
 import SwiftUI
+import MapKit
 
 struct CitySearchField: View {
     let label: String
     @Binding var selectedCity: String
-    @Binding var selectedState: String
+    @Binding var selectedRegion: String
+    @Binding var selectedCountry: String
 
+    @StateObject private var searchService = LocationSearchService()
     @State private var query: String = ""
     @State private var showDropdown: Bool = false
-
-    private var matches: [CitySeed.Entry] {
-        guard !query.isEmpty else { return [] }
-        let lowerQuery = query.lowercased()
-        return CitySeed.all
-            .filter { entry in
-                entry.city.localizedCaseInsensitiveContains(query)
-                    || entry.displayName.localizedCaseInsensitiveContains(query)
-            }
-            .sorted { a, b in
-                let aLower = a.city.lowercased()
-                let bLower = b.city.lowercased()
-                let aStarts = aLower.hasPrefix(lowerQuery)
-                let bStarts = bLower.hasPrefix(lowerQuery)
-                if aStarts != bStarts { return aStarts }
-                return aLower < bLower
-            }
-            .prefix(8)
-            .map { $0 }
-    }
+    @State private var isResolving: Bool = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             if !selectedCity.isEmpty {
                 HStack(spacing: 4) {
-                    Text("\(selectedCity), \(selectedState)")
+                    Text(displayName)
                         .font(.subheadline)
                     Button {
                         selectedCity = ""
-                        selectedState = ""
+                        selectedRegion = ""
+                        selectedCountry = ""
                     } label: {
                         Image(systemName: "xmark")
                             .font(.caption2.weight(.bold))
@@ -50,35 +35,43 @@ struct CitySearchField: View {
             }
 
             if selectedCity.isEmpty {
-                TextField(label, text: $query)
-                    .textFieldStyle(.roundedBorder)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.words)
-                    .onChange(of: query) { _, newValue in
-                        showDropdown = !newValue.isEmpty
+                HStack {
+                    TextField(label, text: $query)
+                        .textFieldStyle(.roundedBorder)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.words)
+                        .onChange(of: query) { _, newValue in
+                            searchService.queryFragment = newValue
+                            showDropdown = !newValue.isEmpty
+                        }
+                    if searchService.isSearching || isResolving {
+                        ProgressView()
+                            .controlSize(.small)
                     }
+                }
 
-                if showDropdown && !matches.isEmpty {
+                if showDropdown && !searchService.results.isEmpty {
                     VStack(alignment: .leading, spacing: 0) {
-                        ForEach(matches) { entry in
+                        ForEach(searchService.results.prefix(8), id: \.self) { completion in
                             Button {
-                                selectedCity = entry.city
-                                selectedState = entry.state
-                                query = ""
-                                showDropdown = false
+                                selectCompletion(completion)
                             } label: {
-                                Text(entry.displayName)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 8)
-                                    .contentShape(Rectangle())
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(completion.title)
+                                        .font(.subheadline)
+                                    if !completion.subtitle.isEmpty {
+                                        Text(completion.subtitle)
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
                             .background(Color.secondary.opacity(0.05))
-
-                            if entry.id != matches.last?.id {
-                                Divider()
-                            }
                         }
                     }
                     .background(Color(uiColor: .systemBackground))
@@ -87,6 +80,35 @@ struct CitySearchField: View {
                     .zIndex(1)
                 }
             }
+        }
+    }
+
+    private var displayName: String {
+        if !selectedRegion.isEmpty {
+            return "\(selectedCity), \(selectedRegion)"
+        } else if !selectedCountry.isEmpty {
+            return "\(selectedCity), \(selectedCountry)"
+        }
+        return selectedCity
+    }
+
+    private func selectCompletion(_ completion: MKLocalSearchCompletion) {
+        isResolving = true
+        Task {
+            do {
+                let result = try await searchService.resolveCompletion(completion)
+                selectedCity = result.city
+                selectedRegion = result.region
+                selectedCountry = result.country
+            } catch {
+                // Fall back to using the completion title as city name
+                selectedCity = completion.title
+                selectedRegion = ""
+                selectedCountry = ""
+            }
+            query = ""
+            showDropdown = false
+            isResolving = false
         }
     }
 }

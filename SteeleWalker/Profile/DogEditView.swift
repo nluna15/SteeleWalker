@@ -1,9 +1,11 @@
 import SwiftUI
+import PhotosUI
 
 struct DogEditView: View {
     @StateObject private var vm: DogEditViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var showDeleteConfirmation = false
+    @State private var selectedItem: PhotosPickerItem?
 
     init(dog: Dog) {
         _vm = StateObject(wrappedValue: DogEditViewModel(dog: dog))
@@ -43,6 +45,43 @@ struct DogEditView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
+                PhotosPicker(selection: $selectedItem, matching: .images) {
+                    if let photoData = vm.selectedPhotoData, let uiImage = UIImage(data: photoData) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 100, height: 100)
+                            .clipShape(Circle())
+                    } else if let url = vm.photoUrl, let photoURL = URL(string: url) {
+                        AsyncImage(url: photoURL) { image in
+                            image
+                                .resizable()
+                                .scaledToFill()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        .frame(width: 100, height: 100)
+                        .clipShape(Circle())
+                    } else {
+                        ZStack {
+                            Circle()
+                                .fill(Color(.systemGray5))
+                                .frame(width: 100, height: 100)
+                            Image(systemName: "camera.fill")
+                                .font(.title2)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                .onChange(of: selectedItem) { _, newItem in
+                    guard let newItem else { return }
+                    Task {
+                        if let data = try? await newItem.loadTransferable(type: Data.self) {
+                            vm.selectedPhotoData = data
+                        }
+                    }
+                }
+
                 Step1DogFormView(dog: draftBinding, index: 0)
 
                 Button {

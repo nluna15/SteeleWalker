@@ -27,15 +27,6 @@ struct PrecipitationChartView: View {
                     .foregroundStyle(precipColor(for: point.type))
                 }
 
-                // "Likely" threshold line
-                RuleMark(y: .value("Likely", 50))
-                    .lineStyle(StrokeStyle(lineWidth: 1, dash: [5, 3]))
-                    .foregroundStyle(.secondary)
-                    .annotation(position: .trailing, alignment: .leading) {
-                        Text("Likely")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-                    }
             }
             .chartXAxis {
                 AxisMarks(values: .stride(by: .hour, count: 6)) { value in
